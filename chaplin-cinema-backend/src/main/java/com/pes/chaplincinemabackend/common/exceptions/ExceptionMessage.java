@@ -1,4 +1,4 @@
-package com.pes.chaplincinemabackend.auth.exceptions;
+package com.pes.chaplincinemabackend.common.exceptions;
 
 public enum ExceptionMessage {
     USER_ALREADY_EXISTS("This error occurs when you are trying to create a new user with same username as an existing user. It looks like a user with username %s already exists", "Username %s already exists"),

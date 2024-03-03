@@ -1,11 +1,10 @@
 package com.pes.chaplincinemabackend.auth.endpoints;
 import com.pes.chaplincinemabackend.auth.annotations.RefreshRolePermission;
-import com.pes.chaplincinemabackend.auth.entities.UserEntity;
+import com.pes.chaplincinemabackend.auth.entities.User;
 import com.pes.chaplincinemabackend.auth.pojos.AuthToken;
 import com.pes.chaplincinemabackend.auth.pojos.Login;
-import com.pes.chaplincinemabackend.auth.pojos.User;
 import com.pes.chaplincinemabackend.auth.services.AuthenticationService;
-import com.pes.chaplincinemabackend.auth.utils.Paths;
+import com.pes.chaplincinemabackend.common.utils.Paths;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,12 +22,12 @@ import java.util.Optional;
 public class AuthEndpoint {
     private final AuthenticationService authenticateService;
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<User> login(@RequestBody Login login) {
+    public Optional<com.pes.chaplincinemabackend.auth.pojos.User> login(@RequestBody Login login) {
         return authenticateService.auth(login);
     }
     @RefreshRolePermission
     @RequestMapping(path = Paths.V1.Auth.Refresh, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<AuthToken> refresh(@AuthenticationPrincipal UserEntity user) {
+    public Optional<AuthToken> refresh(@AuthenticationPrincipal User user) {
         return authenticateService.refresh(user);
     }
 }

@@ -1,4 +1,5 @@
 package com.pes.chaplincinemabackend.auth.exceptions;
+import com.pes.chaplincinemabackend.common.exceptions.BaseException;
 import org.springframework.http.HttpStatus;
 
 public class InvalidPasswordException extends BaseException {

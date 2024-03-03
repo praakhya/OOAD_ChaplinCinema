@@ -1,7 +1,7 @@
 package com.pes.chaplincinemabackend.auth.services;
 
 import com.pes.chaplincinemabackend.auth.entities.Role;
-import com.pes.chaplincinemabackend.auth.exceptions.ExceptionMessage;
+import com.pes.chaplincinemabackend.common.exceptions.ExceptionMessage;
 import com.pes.chaplincinemabackend.auth.exceptions.TokenSigningException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;

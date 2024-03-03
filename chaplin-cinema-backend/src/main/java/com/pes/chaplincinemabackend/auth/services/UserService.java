@@ -1,9 +1,9 @@
 package com.pes.chaplincinemabackend.auth.services;
 
 import com.pes.chaplincinemabackend.auth.entities.Role;
-import com.pes.chaplincinemabackend.auth.entities.UserEntity;
-import com.pes.chaplincinemabackend.auth.exceptions.EntityAlreadyExistsException;
-import com.pes.chaplincinemabackend.auth.exceptions.ExceptionMessage;
+import com.pes.chaplincinemabackend.auth.entities.User;
+import com.pes.chaplincinemabackend.common.exceptions.EntityAlreadyExistsException;
+import com.pes.chaplincinemabackend.common.exceptions.ExceptionMessage;
 import com.pes.chaplincinemabackend.auth.repositiories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,20 +19,20 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Optional<UserEntity> findOne(String username) {
+    public Optional<User> findOne(String username) {
         return userRepository.findUsersByUsername(username);
     }
-    public Optional<UserEntity> findOneByID(UUID id) {
+    public Optional<User> findOneByID(UUID id) {
         return userRepository.findById(id);
     }
 
-    public List<UserEntity> findAll() {
-        List<UserEntity> users = userRepository.findAll();
+    public List<User> findAll() {
+        List<User> users = userRepository.findAll();
         users.forEach(u -> u.setPassword(null));
         return users;
     }
 
-    public Optional<UserEntity> save(UserEntity user) {
+    public Optional<User> save(User user) {
         if (userRepository.findUsersByUsername(user.getUsername()).isPresent()) {
 
             throw new EntityAlreadyExistsException(String.format(ExceptionMessage.USER_ALREADY_EXISTS.getReason(), user.getUsername()),

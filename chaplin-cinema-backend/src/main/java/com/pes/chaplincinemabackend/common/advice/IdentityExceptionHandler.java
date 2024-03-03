@@ -1,6 +1,6 @@
-package com.pes.chaplincinemabackend.auth.advice;
-import com.pes.chaplincinemabackend.auth.exceptions.EntityAlreadyExistsException;
-import com.pes.chaplincinemabackend.auth.exceptions.ExceptionResponse;
+package com.pes.chaplincinemabackend.common.advice;
+import com.pes.chaplincinemabackend.common.exceptions.EntityAlreadyExistsException;
+import com.pes.chaplincinemabackend.common.exceptions.ExceptionResponse;
 import com.pes.chaplincinemabackend.auth.exceptions.InvalidPasswordException;
 import com.pes.chaplincinemabackend.auth.exceptions.TokenSigningException;
 import jakarta.servlet.http.HttpServletRequest;

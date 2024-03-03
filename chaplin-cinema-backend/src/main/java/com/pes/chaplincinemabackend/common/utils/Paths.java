@@ -1,4 +1,4 @@
-package com.pes.chaplincinemabackend.auth.utils;
+package com.pes.chaplincinemabackend.common.utils;
 
 public class Paths {
 

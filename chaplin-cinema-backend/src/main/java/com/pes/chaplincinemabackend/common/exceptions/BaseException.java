@@ -1,4 +1,4 @@
-package com.pes.chaplincinemabackend.auth.exceptions;
+package com.pes.chaplincinemabackend.common.exceptions;
 
 import org.springframework.http.HttpStatus;
 

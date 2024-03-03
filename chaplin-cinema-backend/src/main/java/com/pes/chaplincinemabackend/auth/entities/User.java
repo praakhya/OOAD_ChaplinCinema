@@ -1,4 +1,5 @@
 package com.pes.chaplincinemabackend.auth.entities;
+import com.pes.chaplincinemabackend.common.entities.AbstractBase;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,8 +13,8 @@ import java.util.stream.Collectors;
 
 @Document("user")
 @Data
-public class UserEntity extends AbstractBaseEntity implements UserDetails {
-    public UserEntity() {
+public class User extends AbstractBase implements UserDetails {
+    public User() {
         this.id = UUID.randomUUID();
     }
     private String profilePictureURL;

@@ -6,9 +6,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 public enum Role {
 
     USER("USER"),
-    REFRESH("REFRESH"),
+    REFRESH("REFRESH"), //for refreshing auth token
     ADMIN("ADMIN"),
-    TENANT_ADMIN("TENANT_ADMIN");
+    THEATRE_ADMIN("THEATRE_ADMIN");
     Role(String authority) {
         this.authority = new SimpleGrantedAuthority(authority);
     }

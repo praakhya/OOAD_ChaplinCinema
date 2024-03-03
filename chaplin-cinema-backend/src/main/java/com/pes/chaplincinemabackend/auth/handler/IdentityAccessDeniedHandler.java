@@ -1,6 +1,6 @@
 package com.pes.chaplincinemabackend.auth.handler;
 
-import com.pes.chaplincinemabackend.auth.exceptions.ExceptionResponse;
+import com.pes.chaplincinemabackend.common.exceptions.ExceptionResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

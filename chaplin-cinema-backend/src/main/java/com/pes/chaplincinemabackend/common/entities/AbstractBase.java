@@ -1,4 +1,4 @@
-package com.pes.chaplincinemabackend.auth.entities;
+package com.pes.chaplincinemabackend.common.entities;
 
 
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public abstract class AbstractBaseEntity {
+public abstract class AbstractBase {
 
     private UUID id = UUID.randomUUID();
 

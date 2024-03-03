@@ -2,7 +2,7 @@ package com.pes.chaplincinemabackend.auth.configs;
 
 import com.pes.chaplincinemabackend.auth.handler.IdentityAccessDeniedHandler;
 import com.pes.chaplincinemabackend.auth.handler.IdentityAuthenticationFailureHandler;
-import com.pes.chaplincinemabackend.auth.utils.Paths;
+import com.pes.chaplincinemabackend.common.utils.Paths;
 import com.pes.chaplincinemabackend.auth.filters.JWTAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
