@@ -1,5 +1,11 @@
 import { Card, Button, InputGroup, Form, NavLink } from "react-bootstrap"
+import loginRequest from "./LoginFunctions"
+import { useState } from "react";
+
+
 export default function Login() {
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
     return (
         <div className="d-flex justify-content-center w-100 h-100 m-2">
             <Card data-bs-theme="dark" className="w-50">
@@ -12,6 +18,8 @@ export default function Login() {
                         placeholder="Enter your Username"
                         aria-label="Username"
                         aria-describedby="basic-addon1"
+                        value={username}
+                        onInput={e => setUsername(e.target.value)}
                     />
                 </InputGroup>
                 <InputGroup className="mb-3">
@@ -21,10 +29,16 @@ export default function Login() {
                         aria-label="Username"
                         aria-describedby="basic-addon1"
                         type="password"
+                        value={password}
+                        onInput={e => setPassword(e.target.value)}
                     />
                 </InputGroup>
 <Card.Footer className="d-flex flex-row justify-content-between">
-<Button variant="primary">Login</Button>
+<Button variant="primary" onClick={()=>{
+    loginRequest(username,password)
+    setUsername("")
+    setPassword("")
+    }}>Login</Button>
                 <NavLink href="/signup">Signup</NavLink>
 </Card.Footer>
                 
