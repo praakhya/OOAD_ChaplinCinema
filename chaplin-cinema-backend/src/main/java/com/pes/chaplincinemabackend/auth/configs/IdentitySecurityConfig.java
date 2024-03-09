@@ -38,7 +38,11 @@ public class IdentitySecurityConfig {
                                 "/webjars/**",
                                 "/swagger-ui.html"
                         ).permitAll() //.permitAll() means that these requests don't require authentication, they are permitted
-                        .requestMatchers(HttpMethod.POST, Paths.V1.Users.fullPath, Paths.V1.Auth.fullPath).permitAll()
+                        .requestMatchers(HttpMethod.POST,
+                                Paths.V1.Users.fullPath,
+                                Paths.V1.Customers.fullPath,
+                                Paths.V1.Admins.fullPath,
+                                Paths.V1.Auth.fullPath).permitAll()
                         .anyRequest() //.permitAll() is absent so this means the requests other than ones specified above require authentication.
                         .authenticated()) //requests in anyRequest() need to be authenticated (using Authentication Provider)
                 .sessionManagement((sm) -> {

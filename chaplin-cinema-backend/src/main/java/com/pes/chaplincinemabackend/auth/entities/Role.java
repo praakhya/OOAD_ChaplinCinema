@@ -8,7 +8,8 @@ public enum Role {
     USER("USER"),
     REFRESH("REFRESH"), //for refreshing auth token
     ADMIN("ADMIN"),
-    THEATRE_ADMIN("THEATRE_ADMIN");
+    THEATRE_ADMIN("THEATRE_ADMIN"),
+    CUSTOMER("CUSTOMER");
     Role(String authority) {
         this.authority = new SimpleGrantedAuthority(authority);
     }

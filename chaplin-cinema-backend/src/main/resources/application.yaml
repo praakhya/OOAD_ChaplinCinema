@@ -2,7 +2,7 @@ spring:
   data:
     mongodb:
       user: test
-      uri: mongodb://localhost:27017/authentication
+      uri: mongodb://localhost:27017/chaplin_cinema
 
 application:
   security:

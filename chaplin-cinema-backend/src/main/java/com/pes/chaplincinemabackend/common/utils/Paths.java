@@ -10,17 +10,31 @@ public class Paths {
             public static final String Base = "/users";
             public static final String fullPath = Paths.V1.fullPath + Base;
             public static final String GetOnePathVariable = "username";
-            private static final String workspaces = "/workspaces";
-            public static final String WorkspaceVariable = "workspaceName";
-            public static final String GetUserWorkspaces = workspaces+"/{"+WorkspaceVariable+"}";
-
             public static final String GetOne = "{" + GetOnePathVariable + "}";
+        }
+        public class Customers{
+            public static final String Base = "/customers";
+            public static final String fullPath = Paths.V1.fullPath + Base;
+            public static final String GetOnePathVariable = "username";
+            public static final String GetOne = "{" + GetOnePathVariable + "}";
+            public static final String GetCustomersByFirstNameVariable = "firstName";
+            public static final String GetCustomersByLastNameVariable = "lastName";
+            public static final String GetCustomersByLastName =  "/lastname/" + "{" + GetCustomersByLastNameVariable + "}";
+            public static final String GetCustomersByFirstName = "/firstname/" + "{" + GetCustomersByFirstNameVariable + "}";
         }
         public class Auth {
 
             public static final String Base = "/auth";
             public static final String fullPath = Paths.V1.fullPath + Base;
             public static final String Refresh = "refresh";
+        }
+
+        public class Admins {
+            public static final String Base = "/admins";
+            public static final String fullPath = Paths.V1.fullPath + Base;
+            public static final String GetOnePathVariable = "username";
+            public static final String GetOne = "{" + GetOnePathVariable + "}";
+
         }
     }
 }
