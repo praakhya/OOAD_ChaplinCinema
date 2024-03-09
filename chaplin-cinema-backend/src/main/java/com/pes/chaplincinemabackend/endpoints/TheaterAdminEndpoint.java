@@ -14,5 +14,5 @@ import java.util.UUID;
 @RestController
 @RequestMapping(Paths.V1.Admins.fullPath)
 public class TheaterAdminEndpoint {
-    
+
 }
