@@ -30,23 +30,8 @@ public class AdminEndpoint {
     public  Optional<Admin> findAdminByUsername(@PathVariable(Paths.V1.Admins.GetOnePathVariable) String username) {
         return adminService.findOne(username);
     }
-    void addMovieDetails(
-            String Title,
-            String Director,
-            ArrayList<String> Crew,
-            ArrayList<String> Cast,
-            Float Rating,
-            String Language,
-            String Poster
-    ) {};
-    void updateMovieDetails(
-            String Title,
-            String Director,
-            ArrayList<String> Crew,
-            ArrayList<String> Cast,
-            Float Rating,
-            String Language,
-            String Poster
-    ) {};
-    void deleteMovieDetails(UUID movieId) {}
+    @RequestMapping(value = Paths.V1.Admins.GetOne, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Optional<Admin> deleteCustomer(@PathVariable(Paths.V1.Admins.GetOnePathVariable) String username) {
+        return adminService.deleteAdmin(username);
+    }
 }

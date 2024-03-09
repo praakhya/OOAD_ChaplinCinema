@@ -1,4 +1,5 @@
 package com.pes.chaplincinemabackend.auth.entities;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pes.chaplincinemabackend.common.entities.AbstractBase;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -27,29 +28,35 @@ public class User extends AbstractBase implements UserDetails {
     private boolean expired = false;
     private boolean locked = false;
     private boolean credentialsExpired = false;
+    private boolean enabled = false;
 
     @Override
+    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return grantedAuthorities.stream().map(Role::getAuthority).collect(Collectors.toList());
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonExpired() {
         return !expired;
     }
 
     @Override
+    @JsonIgnore
     public boolean isAccountNonLocked() {
         return !locked;
     }
 
     @Override
+    @JsonIgnore
     public boolean isCredentialsNonExpired() {
         return !credentialsExpired;
     }
 
     @Override
+    @JsonIgnore
     public boolean isEnabled() {
-        return false;
+        return enabled;
     }
 }

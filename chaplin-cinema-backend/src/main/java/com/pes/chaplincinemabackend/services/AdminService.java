@@ -51,4 +51,11 @@ public class AdminService {
         return Optional.of(adminRepository.save(user));
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public Optional<Admin> deleteAdmin(String username) {
+        Admin admin = adminRepository.findAdminByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        adminRepository.deleteById(admin.getId());
+        return Optional.of(admin);
+    }
+
 }

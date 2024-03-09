@@ -12,6 +12,12 @@ public class Paths {
             public static final String GetOnePathVariable = "username";
             public static final String GetOne = "{" + GetOnePathVariable + "}";
         }
+        public class Movies {
+            public static final String Base = "/movies";
+            public static final String fullPath = Paths.V1.fullPath + Base;
+            public static final String GetOnePathVariable = "movieId";
+            public static final String GetOne = "{" + GetOnePathVariable + "}";
+        }
         public class Customers{
             public static final String Base = "/customers";
             public static final String fullPath = Paths.V1.fullPath + Base;

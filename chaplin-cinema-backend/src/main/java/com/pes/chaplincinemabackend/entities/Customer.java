@@ -9,14 +9,15 @@ import java.util.UUID;
 @Document("user")
 @Data
 public class Customer extends User {
-    Customer() {
+    public Customer() {
         super();
         MoviesWatched = new ArrayList<>();
         Bookings = new ArrayList<>();
     }
-    String firstName;
-    String lastName;
-    ArrayList<UUID> MoviesWatched;
-    ArrayList<UUID> Bookings;
+
+    private String firstName;
+    private String lastName;
+    private ArrayList<UUID> MoviesWatched;
+    private ArrayList<UUID> Bookings;
 
 }

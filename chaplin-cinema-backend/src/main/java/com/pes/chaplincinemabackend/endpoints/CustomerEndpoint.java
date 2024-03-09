@@ -8,6 +8,7 @@ import com.pes.chaplincinemabackend.entities.Ticket;
 import com.pes.chaplincinemabackend.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,15 +22,15 @@ public class CustomerEndpoint {
     private CustomerService customerService;
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Customer> postCustomer(@RequestBody Customer userEntity) {
-        return customerService.save(userEntity);
+    public Optional<Customer> postCustomer(@RequestBody Customer customer) {
+        return customerService.save(customer);
     }
     @RequestMapping(value = Paths.V1.Customers.GetOne, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public  Optional<Customer> findCustomerByUsername(@PathVariable(Paths.V1.Customers.GetOnePathVariable) String username) {
         return customerService.findOne(username);
     }
     @RequestMapping(value = Paths.V1.Customers.GetOne, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Customer> deleteCustomer(@PathVariable(Paths.V1.Customers.GetOnePathVariable) String username) {
+    public Optional<Customer> deleteCustomer(@PathVariable(Paths.V1.Customers.GetOnePathVariable) @P(Paths.V1.Customers.GetOnePathVariable) String username) {
         return customerService.deleteCustomer(username);
     }
     @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
