@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -16,6 +17,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +32,15 @@ public class IdentitySecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.csrf(csrf -> csrf.disable())
+        httpSecurity
+                .cors(cors -> cors.configurationSource(request -> {
+                            CorsConfiguration configuration = new CorsConfiguration();
+                            configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+                            configuration.setAllowedMethods(Arrays.asList("*"));
+                            configuration.setAllowedHeaders(Arrays.asList("*"));
+                            return configuration;
+                        }))
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((auth) -> auth.requestMatchers(
                                 "/swagger-resources",
                                 "/swagger-resources/**",
@@ -36,6 +48,8 @@ public class IdentitySecurityConfig {
                                 "/configuration/security",
                                 "/swagger-ui/**",
                                 "/webjars/**",
+                                "/*",
+                                "/static/**",
                                 "/swagger-ui.html"
                         ).permitAll() //.permitAll() means that these requests don't require authentication, they are permitted
                         .requestMatchers(HttpMethod.POST,
