@@ -1,15 +1,13 @@
 package com.pes.chaplincinemabackend.services;
 
-import com.pes.chaplincinemabackend.auth.entities.Role;
 import com.pes.chaplincinemabackend.common.exceptions.EntityAlreadyExistsException;
 import com.pes.chaplincinemabackend.common.exceptions.EntityDoesNotExistException;
 import com.pes.chaplincinemabackend.common.exceptions.ExceptionMessage;
-import com.pes.chaplincinemabackend.entities.Admin;
 import com.pes.chaplincinemabackend.entities.Movie;
-import com.pes.chaplincinemabackend.repositories.AdminRepository;
-import com.pes.chaplincinemabackend.repositories.CustomerRepository;
 import com.pes.chaplincinemabackend.repositories.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,12 +24,12 @@ public class MovieService {
     public List<Movie> findByName(String name) {
         return movieRepository.findByName(name);
     }
-    public Optional<Movie> findOneByID(UUID id) {
+    public Optional<Movie> findByID(UUID id) {
         return movieRepository.findById(id);
     }
 
-    public List<Movie> findAll() {
-        return movieRepository.findAll();
+    public Page<Movie> findAll(int page, int size) {
+        return movieRepository.findAll(PageRequest.of(page, size));
     }
 
 

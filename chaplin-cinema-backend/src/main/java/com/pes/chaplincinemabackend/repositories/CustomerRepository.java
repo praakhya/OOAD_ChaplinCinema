@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface CustomerRepository extends MongoRepository<Customer, UUID> {
     @Query("{username: ?0}")
-    Optional<Customer> findCustomersByUsername(String username);
+    Optional<Customer> findCustomerByUsername(String username);
 
     @Query("{$and:[{firstName: ?0},{grantedAuthorities: 'CUSTOMER'}]}")
     List<Customer> findCustomersByFirstname(String firstName);

@@ -1,11 +1,11 @@
 package com.pes.chaplincinemabackend.services;
 
 import com.pes.chaplincinemabackend.auth.entities.Role;
-import com.pes.chaplincinemabackend.auth.entities.User;
+import com.pes.chaplincinemabackend.common.exceptions.BadRequestException;
 import com.pes.chaplincinemabackend.common.exceptions.EntityAlreadyExistsException;
+import com.pes.chaplincinemabackend.common.exceptions.EntityDoesNotExistException;
 import com.pes.chaplincinemabackend.common.exceptions.ExceptionMessage;
 import com.pes.chaplincinemabackend.entities.Customer;
-import com.pes.chaplincinemabackend.permissions.UserPermissions;
 import com.pes.chaplincinemabackend.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -22,55 +22,66 @@ public class CustomerService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public Optional<Customer> findOne(String username) {
-        return customerRepository.findCustomersByUsername(username);
+    public Optional<Customer> findByUsername(String username) {
+        Customer customer = customerRepository.findCustomerByUsername(username).orElseThrow(()->new UsernameNotFoundException(username));
+        customer.setPassword(null);
+        return Optional.of(customer);
     }
-    public Optional<Customer> findOneByID(UUID id) {
-        return customerRepository.findById(id);
+    public List<Customer> findByFirstname(String firstName) {
+        List<Customer> users = customerRepository.findCustomersByFirstname(firstName);
+        users.forEach(u -> u.setPassword(null));
+        return users;
     }
 
+    public List<Customer> findByLastname(String lastName) {
+        List<Customer> users = customerRepository.findCustomersByLastname(lastName);
+        users.forEach(u -> u.setPassword(null));
+        return users;
+    }
+    public Optional<Customer> findByID(UUID id) {
+        Customer customer = customerRepository.findById(id).orElseThrow(()->new UsernameNotFoundException(id.toString()));
+        customer.setPassword(null);
+        return Optional.of(customer);
+    }
     public List<Customer> findAll() {
         List<Customer> users = customerRepository.findAll();
         users.forEach(u -> u.setPassword(null));
         return users;
     }
 
-    public Optional<Customer> save(Customer user) {
-        if (customerRepository.findCustomersByUsername(user.getUsername()).isPresent()) {
+    public Optional<Customer> create(Customer user) {
+        if (customerRepository.findCustomerByUsername(user.getUsername()).isPresent()) {
             throw new EntityAlreadyExistsException(String.format(ExceptionMessage.USER_ALREADY_EXISTS.getReason(), user.getUsername()),
                     String.format(ExceptionMessage.USER_ALREADY_EXISTS.getError(), user.getUsername()));
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setGrantedAuthorities(Set.of(Role.CUSTOMER));
-        user.setCreatedAt(new Date());
-        user.setCreatedBy(user.getUsername());
-        user.setUpdatedBy(user.getUsername());
-        return Optional.of(customerRepository.save(user));
+        return save(user);
     }
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    public Optional<Customer> update(Customer user) {
+        if (user.getId() == null) {
+            throw new BadRequestException(ExceptionMessage.ID_DOESNOT_EXIT.getError(), ExceptionMessage.ID_DOESNOT_EXIT.getReason());
+        }
+        customerRepository.findById(user.getId()).orElseThrow(()-> new EntityDoesNotExistException(String.format(ExceptionMessage.ENTITY_DOES_NOT_EXIST.getReason(), user.getUsername()),
+                String.format(ExceptionMessage.ENTITY_DOES_NOT_EXIST.getError(), user.getUsername())));
+        return save(user);
+    }
+    private Optional<Customer> save(Customer customer) {
+        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+        customer.setGrantedAuthorities(Set.of(Role.CUSTOMER));
+        customer.setCreatedAt(new Date());
+        customer.setCreatedBy(customer.getUsername());
+        customer.setUpdatedBy(customer.getUsername());
+        return Optional.of(customerRepository.save(customer));
+    }
     public List<Customer> findAllCustomers() {
         List<Customer> users = customerRepository.findAllCustomers();
         users.forEach(u -> u.setPassword(null));
         return users;
     }
-    @PreAuthorize("@userPermissions.authorizedForAdminAndCurrentCustomer(principal, #username)")
     public Optional<Customer> deleteCustomer(String username) {
-        Customer customer = customerRepository.findCustomersByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        Customer customer = customerRepository.findCustomerByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
         customerRepository.deleteById(customer.getId());
         return Optional.of(customer);
 
     }
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public List<Customer> findCustomersByFirstName(String firstName) {
-        List<Customer> users = customerRepository.findCustomersByFirstname(firstName);
-        users.forEach(u -> u.setPassword(null));
-        return users;
-    }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public List<Customer> findCustomersByLastName(String lastName) {
-        List<Customer> users = customerRepository.findCustomersByLastname(lastName);
-        users.forEach(u -> u.setPassword(null));
-        return users;
-    }
 }

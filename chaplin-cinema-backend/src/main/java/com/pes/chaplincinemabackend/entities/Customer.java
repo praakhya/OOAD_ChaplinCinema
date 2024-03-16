@@ -10,7 +10,6 @@ import java.util.UUID;
 @Data
 public class Customer extends User {
     public Customer() {
-        super();
         MoviesWatched = new ArrayList<>();
         Bookings = new ArrayList<>();
     }

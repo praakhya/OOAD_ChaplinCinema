@@ -1,4 +1,5 @@
 package com.pes.chaplincinemabackend.common.advice;
+import com.pes.chaplincinemabackend.common.exceptions.BadRequestException;
 import com.pes.chaplincinemabackend.common.exceptions.EntityAlreadyExistsException;
 import com.pes.chaplincinemabackend.common.exceptions.ExceptionResponse;
 import com.pes.chaplincinemabackend.auth.exceptions.InvalidPasswordException;
@@ -57,6 +58,19 @@ public class IdentityExceptionHandler {
                 .requestId(request.getRequestId())
                 .status(HttpStatus.FAILED_DEPENDENCY.value())
                 .stackTrace(Arrays.stream(tse.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
+                .build();
+    }
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionResponse handleInvalidPasswordException(BadRequestException bre,
+                                                            HttpServletRequest request) {
+        return ExceptionResponse.builder()
+                .error(bre.getError())
+                .message(bre.getMessage())
+                .timestamp(bre.getTimestamp())
+                .path(request.getRequestURI())
+                .requestId(request.getRequestId())
+                .status(HttpStatus.BAD_REQUEST.value())
                 .build();
     }
 }

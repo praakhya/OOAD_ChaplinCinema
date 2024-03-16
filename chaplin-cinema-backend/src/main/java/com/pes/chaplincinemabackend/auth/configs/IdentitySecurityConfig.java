@@ -50,7 +50,8 @@ public class IdentitySecurityConfig {
                                 "/webjars/**",
                                 "/*",
                                 "/static/**",
-                                "/swagger-ui.html"
+                                "/swagger-ui.html",
+                                Paths.V1.Image.Base+"/**"
                         ).permitAll() //.permitAll() means that these requests don't require authentication, they are permitted
                         .requestMatchers(HttpMethod.POST,
                                 Paths.V1.Users.fullPath,
