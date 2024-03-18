@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,13 +23,19 @@ public class MovieEndpoint {
     @Autowired
     private MovieService movieService;
     @PreAuthorize("hasAnyAuthority('ADMIN', 'CUSTOMER', 'THEATRE_ADMIN')")
-    @RequestMapping(value = Paths.pageAndSizePath, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Page<Movie> getAllMovies(@PathVariable(value = Paths.pageVariable, required = false) Integer page,
-                                  @PathVariable(value = Paths.sizeVariable, required = false) Integer size) {
-        page = (page == null ? 0 : page);
-        size = (size == null ? 50 : size);
+    @RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Page<Movie> getAllMovies(@RequestParam(value = Paths.pageVariable, defaultValue = "0") Integer page,
+                                  @RequestParam(value = Paths.sizeVariable, defaultValue = "50") Integer size) {
         return movieService.findAll(page, size);
     }
+    @RequestMapping(value = Paths.V1.Movies.GetPhrasePath, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Page<Movie> getMoviesByPhrase(@PathVariable(Paths.V1.Movies.GetPhrasePathVariable) String phrase,
+                                         @RequestParam(value = Paths.pageVariable, defaultValue = "0") Integer page,
+                                         @RequestParam(value = Paths.sizeVariable, defaultValue = "50") Integer size) {
+        return movieService.searchByMoviePhrase(phrase, page, size);
+    }
+
+
 
     @RequestMapping(method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Optional<Movie> addMovieDetails(@RequestBody Movie movie) {

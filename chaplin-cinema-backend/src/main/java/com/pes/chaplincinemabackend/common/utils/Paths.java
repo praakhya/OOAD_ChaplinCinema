@@ -22,6 +22,8 @@ public class Paths {
             public static final String fullPath = Paths.V1.fullPath + Base;
             public static final String GetOnePathVariable = "movieId";
             public static final String GetOne = "{" + GetOnePathVariable + "}";
+            public static final String GetPhrasePathVariable = "moviePhrase";
+            public static final String GetPhrasePath = "/search/"+"{" + GetPhrasePathVariable + "}";
         }
         public class Customers{
             public static final String Base = "/customers";

@@ -31,7 +31,9 @@ public class MovieService {
     public Page<Movie> findAll(int page, int size) {
         return movieRepository.findAll(PageRequest.of(page, size));
     }
-
+    public Page<Movie> searchByMoviePhrase(String phrase, int page, int size) {
+        return movieRepository.searchByMoviePhrase(phrase, PageRequest.of(page, size));
+    }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public Optional<Movie> save(Movie movie) {
