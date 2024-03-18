@@ -1,12 +1,38 @@
+import axios from "axios"
+import { baseUrl } from "../paths";
+
 import { Card, Button, InputGroup, Form, NavLink } from "react-bootstrap"
-import loginRequest from "./LoginFunctions"
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
+
+
+
+
 
 export default function Login() {
+    
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const navigate = useNavigate();
+    const context = useOutletContext()
+    const navigate = useNavigate()
+
+    function loginRequest(username,password) {
+        
+        axios.post(baseUrl + '/auth',{
+            username:username,
+            password:password
+        },{headers:{ 'Content-Type': 'application/json' }})
+        .then((response) => {
+            console.log(response.data)
+            localStorage.setItem("user", JSON.stringify(response.data))
+            context.setUser(response.data)
+            navigate("/movies")
+        })
+        .catch((err) => {
+            console.log("err:",err);
+            })
+             
+    }
 
     return (
         <div className="d-flex justify-content-center w-100 h-100 m-2">
@@ -40,8 +66,6 @@ export default function Login() {
     loginRequest(username,password)
     setUsername("")
     setPassword("")
-    navigate("/movies")
-
     }}>Login</Button>
                 <NavLink href="/signup">Signup</NavLink>
 </Card.Footer>

@@ -1,48 +1,58 @@
-import { Button, ButtonToolbar, Card, ButtonGroup, InputGroup, Form } from "react-bootstrap"
-import { useParams } from "react-router-dom"
-import { movies, languages } from "../testConstants";
-import { MdOutlineSearch } from "react-icons/md";
+import { Button, ButtonToolbar, Card, Alert } from "react-bootstrap"
+import { useOutletContext, useParams } from "react-router-dom"
+import { languages } from "../testConstants";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+
 export default function MoviePreview() {
+    const context = useOutletContext()
     const { id } = useParams();
-    const movie = Array.from(new Set(movies)).filter((m) => { return m.movie_id == id })[0]
-    movie.release_date = Date(movie.release_date)
+    console.log("CONTEXT:", context)
+    var movie = null
+    if (context != undefined) { movie = Array.from(new Set(context.movies)).filter((m) => { return m.id == id })[0] }
+    const dark = "rgb(25,28,31)"
+    const navigate = useNavigate()
+    function stringToDate(d) {
+        var date;
+        if (d!=undefined) {
+            date = new Date(d)
+            return date.getDate() + "-" + date.getMonth() + "-" + date.getFullYear()
+        }
+        return ""
+    }
+    const getLanguage = (code) => {
+        const lang = new Intl.DisplayNames(['en'], {type: 'language'});
+        return lang.of(code);
+    }
+    
+    console.log("MOVIE PREVIEW:", movie)
     return (
-        <div>
-            <ButtonToolbar className="w-100 justify-content-between flex-row-reverse m-5">
-                <ButtonGroup>
-                    <Button>aedfwef</Button>
-                </ButtonGroup>
-                {/* <ButtonGroup className="me-2" aria-label="First group">
-                    <Button variant="secondary">
-                        <MdGridView />
-                    </Button>{' '}
-                    <Button variant="secondary">
-                        <MdList />
-                    </Button>{' '}
-                </ButtonGroup> */}
-                <InputGroup>
-                    <InputGroup.Text id="btnGroupAddon">
-                        <MdOutlineSearch />
-                    </InputGroup.Text>
-                    <Form.Control
-                        type="text"
-                        placeholder="Input group example"
-                        aria-label="Input group example"
-                        aria-describedby="btnGroupAddon"
-                    />
-                </InputGroup>
-            </ButtonToolbar>
-            <Card className='d-flex flex-row' data-bs-theme="dark">
-                <Card.Img src={movie.poster_path} style={{ width: "15vw" }} />
-                <Card.Body>
-                    <Card.Title>{movie.title}</Card.Title>
-                    <Card.Subtitle>Released on: {movie.release_date}</Card.Subtitle>
-                    <Card.Subtitle>Language: {languages[movie.original_language]}</Card.Subtitle>
-                    <Card.Text>
+        movie!=null ? <div>
+            <Card data-bs-theme="dark" style={{ borderRadius: 0 }}>
+                <ButtonToolbar className="align-items-left flex-row">
+                    <Button variant="secondary" className="m-3" onClick={() => { navigate("/movies") }}>Back</Button>
+                </ButtonToolbar>
+                <div className='d-flex flex-row p-5'>
+                    <Card.Img src={movie.posterPath} style={{ width: "15vw" }} />
+                    <Card.Body>
+                        <Card.Title className="fs-1">{movie.title}</Card.Title>
+                        <Card.Text>
+                            <span className="fs-5">Released on: {stringToDate(movie.releaseDate)}</span>
+                            <br />
+                                <span>
+                                Language: {getLanguage(movie.originalLanguage)}</span>
+                        </Card.Text>
+                        <Card.Footer>
                         {movie.overview}
-                    </Card.Text>
-                </Card.Body>
+                        </Card.Footer>
+                    </Card.Body>
+                </div>
             </Card>
-        </div>
+            <div className="d-flex flex-column align-items-center m-5">
+                <Alert variant="secondary">
+                    Booking Selection feature is yet to be added
+                </Alert>
+            </div>
+        </div> : <></>
     )
 }

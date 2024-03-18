@@ -77,4 +77,36 @@ var languages = {
   'tw', 'uk', 'ur', 'vi', 'xx', 'zh'
 }*/
 
-export  {movies,languages}
+const user = {
+  "_id": {
+    "$binary": {
+      "base64": "00zHNFc9IxPRPi6bE05omQ==",
+      "subType": "03"
+    }
+  },
+  "MoviesWatched": [],
+  "Bookings": [],
+  "username": "firstCustomer",
+  "password": "{scrypt@SpringSecurity_v5_8}$100801$km67iGZVTnCLKMQXnOkXiQ==$uSaUB/AZ/zW5v50Xz8o9p5C4ifVZAPRPHShpD4t4c+g=",
+  "grantedAuthorities": [
+    "CUSTOMER"
+  ],
+  "expired": false,
+  "locked": false,
+  "credentialsExpired": false,
+  "enabled": false,
+  "id": {
+    "$binary": {
+      "base64": "Ik5IY6mW/isce/04M5vlkw==",
+      "subType": "03"
+    }
+  },
+  "createdBy": "firstCustomer",
+  "updatedBy": "firstCustomer",
+  "createdAt": {
+    "$date": "2024-03-09T19:15:03.830Z"
+  },
+  "_class": "com.pes.chaplincinemabackend.entities.Customer"
+}
+
+export  {movies,languages,user}

@@ -1,20 +1,48 @@
 import { Link, Outlet } from "react-router-dom"
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap"
+import { Navbar, Container, Nav, NavDropdown, Image } from "react-bootstrap"
+import { useState } from "react"
+import { useNavigate } from "react-router-dom"
+
 export default function Layout() {
+
+    var storedUser = JSON.parse(localStorage.getItem("user"));
+    console.log("App.js:", storedUser)
+    const [user, setUser] = useState(storedUser);
+    const [movies, setMovies] = useState([]);
+  
+    const navigate = useNavigate()
+    function isLoggedIn() {
+        if (user == null) {
+            return false
+        }
+        return true
+    }
+    function logout() {
+        localStorage.removeItem("user")
+        setUser(null)
+    }
+    
     return (
         <>
             <Navbar bg="dark" data-bs-theme="dark">
                 <Container>
-                    <Navbar.Brand href="/">Chaplin Cinema</Navbar.Brand>
+                    <Navbar.Brand>Chaplin Cinema</Navbar.Brand>
                     <Nav className="justify-content-end">
                         <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="/login">Login</Nav.Link>
+                        {
+                            isLoggedIn() ? <Nav.Link onClick={logout}>Logout</Nav.Link> : <Nav.Link href="/login">Login</Nav.Link>
+                        }
+                        {
+                            isLoggedIn() && user.profilePictureURL != null ? <Image src={user.profilePictureURL} roundedCircle /> : <></>
+                        }
+
                     </Nav>
+
                 </Container>
             </Navbar>
-            
 
-            <Outlet />
+
+            <Outlet context={{user, setUser, movies, setMovies}}/>
         </>
     )
 }
