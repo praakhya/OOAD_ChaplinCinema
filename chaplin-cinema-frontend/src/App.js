@@ -7,6 +7,9 @@ import Login from './Login/Login';
 import NoPage from './NoPage/NoPage';
 import Signup from './Signup/Signup';
 import MoviePage from './Movie/MoviePage';
+import { createContext } from "react";
+import MoviePreview from './Movie/MoviePreview';
+
 function App() {
   return (
     <BrowserRouter>
@@ -16,6 +19,8 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path='signup' element={<Signup/>}/>
           <Route path='movies' element={<MoviePage/>}/>
+          <Route path='movie/:id' element={<MoviePreview/>}/>
+
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>

@@ -1,11 +1,13 @@
 import { Card, Button, InputGroup, Form, NavLink } from "react-bootstrap"
 import loginRequest from "./LoginFunctions"
 import { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const navigate = useNavigate();
+
     return (
         <div className="d-flex justify-content-center w-100 h-100 m-2">
             <Card data-bs-theme="dark" className="w-50">
@@ -38,6 +40,8 @@ export default function Login() {
     loginRequest(username,password)
     setUsername("")
     setPassword("")
+    navigate("/movies")
+
     }}>Login</Button>
                 <NavLink href="/signup">Signup</NavLink>
 </Card.Footer>
