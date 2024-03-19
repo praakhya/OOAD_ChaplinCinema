@@ -2,8 +2,6 @@ import { Card, Button, InputGroup, Form, NavLink, Tabs, Tab, Alert } from "react
 import { useState, createRef } from "react";
 import axios from "axios";
 import { baseUrl } from "../paths";
-import { useNavigate } from "react-router-dom";
-import { MdSportsGolf } from "react-icons/md";
 
 const customerRef = {username:createRef(), password:createRef(), firstname:createRef(), lastname:createRef()}
 const adminRef = {username:createRef(), password:createRef()}
