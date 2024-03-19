@@ -15,7 +15,7 @@ import { baseUrl } from "../paths";
 import MovieSearchPage from './MovieSearchPage';
 
 export const SearchedMovieContext = createContext()
-
+const dummyImage = "/images/placeholderPoster.jpg"
 export default function MoviePage() {
     const context = useOutletContext()
     const [radioValue, setRadioValue] = useState('list');
@@ -83,7 +83,7 @@ export default function MoviePage() {
                                 id={`radio-${idx}`}
                                 type="radio"
                                 name="radio"
-                                variant='dark'
+                                variant='light'
                                 value={radio.value}
                                 checked={radioValue === radio.value}
                                 onChange={(e) => setRadioValue(e.currentTarget.value)}
@@ -92,7 +92,7 @@ export default function MoviePage() {
                             </ToggleButton>
                         ))}
                     </ButtonGroup>
-                    <InputGroup data-bs-theme="dark">
+                    <InputGroup data-bs-theme="light">
                         <InputGroup.Text id="btnGroupAddon">
                             <MdOutlineSearch />
                         </InputGroup.Text>
@@ -114,7 +114,7 @@ export default function MoviePage() {
                         context.movies.map((movie) => {
                             return radioValue == 'list'
                                 ?
-                                <Card className='d-flex flex-row w-100' data-bs-theme="dark" key={key++}>
+                                <Card className='d-flex flex-row w-100' data-bs-theme="light" key={key++}>
                                     <Card.Img variant="top" src={movie.posterPath} style={{ width: "15vw" }} />
                                     <Card.Body>
                                         <Card.Title>{movie.title}</Card.Title>
@@ -125,7 +125,7 @@ export default function MoviePage() {
                                     </Card.Body>
                                 </Card>
                                 :
-                                <Card className='d-flex flex-column' style={{ width: "200px" }} data-bs-theme="dark" key={key++}>
+                                <Card className='d-flex flex-column' style={{ width: "200px" }} data-bs-theme="light" key={key++}>
                                     <Card.Img variant="top" src={movie.posterPath} style={{ width: "200px" }} />
                                     <Card.Body>
                                         <Card.Title>{movie.title}</Card.Title>

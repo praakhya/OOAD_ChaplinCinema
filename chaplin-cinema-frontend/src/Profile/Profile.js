@@ -10,7 +10,7 @@ export default function Profile() {
             <Button className="m-2" variant="secondary" onClick={()=>navigate("/movies")}>Back</Button>
         </ButtonToolbar>
         <div className="p-5 d-flex flex-row gap-3">
-            <Card style={{ width: '18rem' }} data-bs-theme="dark">
+            <Card style={{ width: '18rem' }} data-bs-theme="light">
                 <Card.Img variant="top" />
                 <Card.Body>
                     <Card.Title>{user.username}</Card.Title>

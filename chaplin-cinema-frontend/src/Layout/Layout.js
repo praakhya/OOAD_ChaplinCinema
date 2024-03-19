@@ -24,7 +24,7 @@ export default function Layout() {
     
     return (
         <>
-            <Navbar bg="dark" data-bs-theme="dark">
+            <Navbar bg="light" data-bs-theme="light">
                 <Container>
                     <Navbar.Brand>Chaplin Cinema</Navbar.Brand>
                     <Nav className="justify-content-end">

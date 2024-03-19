@@ -7,7 +7,6 @@ import Login from './Login/Login';
 import NoPage from './NoPage/NoPage';
 import Signup from './Signup/Signup';
 import MoviePage from './Movie/MoviePage';
-import { createContext, useState } from "react";
 import MoviePreview from './Movie/MoviePreview';
 import Profile from './Profile/Profile';
 

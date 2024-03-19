@@ -36,7 +36,7 @@ export default function Login() {
 
     return (
         <div className="d-flex justify-content-center w-100 h-100 m-2">
-            <Card data-bs-theme="dark" className="w-50">
+            <Card data-bs-theme="light" className="w-50">
             <Card.Header>Login</Card.Header>
             <Card.Body>
                 <Card.Title>Login to Chaplin Cinema</Card.Title>

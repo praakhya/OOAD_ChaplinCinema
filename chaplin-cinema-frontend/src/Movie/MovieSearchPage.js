@@ -17,7 +17,7 @@ function MovieSearchPage() {
                 searchedMovieContext.setSearchPhrase("")
                 }}/>
         </ButtonToolbar>
-        <ListGroup>
+        <ListGroup data-bs-theme="light">
             {
                 movies.map(m => {
                     return <ListGroup.Item key={i++} action onClick={()=>navigate("/movie/"+m.id)} as="div" style={{width:"75vw"}}>{m.title}</ListGroup.Item>
