@@ -12,7 +12,9 @@ import { useContext, useState, useEffect, createContext } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import axios from "axios"
 import { baseUrl } from "../paths";
+import MovieSearchPage from './MovieSearchPage';
 
+export const SearchedMovieContext = createContext()
 
 export default function MoviePage() {
     const context = useOutletContext()
@@ -24,6 +26,7 @@ export default function MoviePage() {
         { name: <MdList />, value: 'list' },
     ];
     var [searchPhrase, setSearchPhrase] = useState("")
+    var [searchedMovies, setSearchedMovies] = useState([])
     const descCharLimit = 200
     useEffect(() => {
         getMovies();
@@ -51,6 +54,7 @@ export default function MoviePage() {
 
     }
     function getMoviesBySearchPhrase(val) {
+        if (val=="") {return}
         console.log("token:", context.user.authToken.authToken)
         axios.get(baseUrl + '/movies/search/'+val, {
             headers: {
@@ -59,7 +63,9 @@ export default function MoviePage() {
             }
         })
             .then((response) => {
-                console.log("response:",response.data.content)
+                //console.log("response:",response.data.content)
+                setSearchedMovies(response.data.content)
+                console.log("FINSHED SEARCH:",searchedMovies)
             })
             .catch((err) => {
                 console.log("err:", err);
@@ -100,6 +106,9 @@ export default function MoviePage() {
                         />
                     </InputGroup>
                 </ButtonToolbar>
+                <SearchedMovieContext.Provider value={{searchedMovies, setSearchedMovies, setSearchPhrase}}>
+                    {searchedMovies.length > 0 ? <MovieSearchPage/>:<></>}
+                </SearchedMovieContext.Provider>
                 <div className={radioValue == 'list' ? 'w-75 d-flex flex-column align-items-center gap-3 m-5' : 'w-75 d-flex flex-row align-items-center gap-3 m-5 flex-wrap justify-content-center'}>
                     {
                         context.movies.map((movie) => {
