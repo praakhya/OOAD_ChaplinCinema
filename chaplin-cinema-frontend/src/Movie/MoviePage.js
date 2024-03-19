@@ -23,10 +23,15 @@ export default function MoviePage() {
         { name: <MdGridView />, value: 'grid' },
         { name: <MdList />, value: 'list' },
     ];
+    var [searchPhrase, setSearchPhrase] = useState("")
     const descCharLimit = 200
     useEffect(() => {
         getMovies();
     }, []);
+    useEffect(()=>{
+        getMoviesBySearchPhrase(searchPhrase)
+        console.log("Search phrase:",searchPhrase)
+    },[searchPhrase])
     function getMovies() {
         console.log("token:", context.user.authToken.authToken)
         axios.get(baseUrl + '/movies', {
@@ -39,6 +44,22 @@ export default function MoviePage() {
                 console.log("response:",response.data.content)
                 context.setMovies(response.data.content)
                 console.log("movies:",context)
+            })
+            .catch((err) => {
+                console.log("err:", err);
+            })
+
+    }
+    function getMoviesBySearchPhrase(val) {
+        console.log("token:", context.user.authToken.authToken)
+        axios.get(baseUrl + '/movies/search/'+val, {
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + context.user.authToken.authToken
+            }
+        })
+            .then((response) => {
+                console.log("response:",response.data.content)
             })
             .catch((err) => {
                 console.log("err:", err);
@@ -65,7 +86,7 @@ export default function MoviePage() {
                             </ToggleButton>
                         ))}
                     </ButtonGroup>
-                    <InputGroup>
+                    <InputGroup data-bs-theme="dark">
                         <InputGroup.Text id="btnGroupAddon">
                             <MdOutlineSearch />
                         </InputGroup.Text>
@@ -74,6 +95,8 @@ export default function MoviePage() {
                             placeholder="Input group example"
                             aria-label="Input group example"
                             aria-describedby="btnGroupAddon"
+                            value={searchPhrase}
+                            onChange={(e) => setSearchPhrase(e.target.value)}
                         />
                     </InputGroup>
                 </ButtonToolbar>
