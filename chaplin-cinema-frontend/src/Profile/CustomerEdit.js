@@ -5,22 +5,21 @@ import { useOutletContext } from "react-router-dom";
 import { baseUrl } from "../paths";
 function CustomerEdit() {
     const context = useOutletContext();
-    const userRef = {
-        password: createRef(),
-        firstname: createRef(),
-        lastname: createRef()
-    }
+    const [password,setPassword] = useState(context.user.password)
+    const [firstName, setFirstName] = useState(context.user.firstName)
+    const [lastName, setLastName] = useState(context.user.lastName)
     const [responseAlert, setResponseAlert] = useState({
         message: "",
         status: ""
     })
-    function editRequest() {
+    function editRequest(event) {
+        event.preventDefault()
         axios.put(baseUrl + '/customers', {
             id: context.user.id,
             username: context.user.username,
-            password: userRef.password.current.value,
-            firstName: userRef.firstname.current.value,
-            lastName: userRef.lastname.current.value
+            password: password,
+            firstName: firstName,
+            lastName: lastName
         },
         {
             headers: {
@@ -29,9 +28,16 @@ function CustomerEdit() {
             }
         })
             .then((response) => {
-                console.log("response:",response.data.content)
-                context.setUser(response.data.content)
-                localStorage.setItem("user",JSON.stringify(response.data.content))
+                console.log("response:",response.data)
+                if (response.data == undefined) {
+                    return
+                }
+                var modifiedUser = context.user
+                modifiedUser.firstName = response.data.firstName
+                modifiedUser.lastName = response.data.lastName
+                modifiedUser.password = response.data.password
+                context.setUser(modifiedUser)
+                localStorage.setItem("user",JSON.stringify(modifiedUser))
                 setResponseAlert({
                     message: "User was modified successfully",
                     status: 200
@@ -47,7 +53,7 @@ function CustomerEdit() {
     }
     return (
         <>
-        <Form>
+        <Form onSubmit={editRequest}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Username</Form.Label>
                 <Form.Control type="text" disabled value={context.user.username}/>
@@ -58,15 +64,15 @@ function CustomerEdit() {
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" ref={userRef.password}/>
+                <Form.Control type="password" placeholder="Password" value={password} onChange={(e)=>setPassword(e.target.value)}/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicFirstName">
                 <Form.Label>First Name</Form.Label>
-                <Form.Control type="text" placeholder="First Name" ref={userRef.firstname}/>
+                <Form.Control type="text" placeholder="First Name" value={firstName} onChange={(e)=>setFirstName(e.target.value)}/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicLastName">
                 <Form.Label>Last Name</Form.Label>
-                <Form.Control type="text" placeholder="Last Name" ref={userRef.lastname}/>
+                <Form.Control type="text" placeholder="Last Name" value={lastName} onChange={(e)=>setLastName(e.target.value)}/>
             </Form.Group>
             <Button variant="primary" type="submit">
                 Submit

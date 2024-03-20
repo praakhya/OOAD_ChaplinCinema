@@ -9,10 +9,10 @@ import Signup from './Signup/Signup';
 import MoviePage from './Movie/MoviePage';
 import MoviePreview from './Movie/MoviePreview';
 import Profile from './Profile/Profile';
+import AuthGuard from './guards/AuthGuard';
 
 function App() {
 
-  
   return (
         <BrowserRouter>
           <Routes>
@@ -20,9 +20,9 @@ function App() {
               <Route index element={<Home />} />
               <Route path="login" element={<Login />} />
               <Route path='signup' element={<Signup />} />
-              <Route path='movies' element={<MoviePage />} />
-              <Route path='movie/:id' element={<MoviePreview />} />
-              <Route path='profile' element={<Profile />} />
+              <Route path='movies' element={<AuthGuard component={<MoviePage />}/> }/>
+              <Route path='movie/:id' element={<AuthGuard component={<MoviePreview />}/>} />
+              <Route path='profile' element={<AuthGuard component={<Profile />}/>} />
               <Route path="*" element={<NoPage />} />
             </Route>
           </Routes>

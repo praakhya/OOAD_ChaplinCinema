@@ -1,11 +1,13 @@
+import axios from "axios";
+import { createRef, useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { useOutletContext } from "react-router-dom";
-import axios from "axios";
 import { baseUrl } from "../paths";
-import { useState } from "react";
-function AdminEdit() {
-    const context = useOutletContext()
+function MovieEdit() {
+    const context = useOutletContext();
     const [password,setPassword] = useState(context.user.password)
+    const [firstName, setFirstName] = useState(context.user.firstName)
+    const [lastName, setLastName] = useState(context.user.lastName)
     const [responseAlert, setResponseAlert] = useState({
         message: "",
         status: ""
@@ -29,6 +31,8 @@ function AdminEdit() {
                     return
                 }
                 var modifiedUser = context.user
+                modifiedUser.firstName = response.data.firstName
+                modifiedUser.lastName = response.data.lastName
                 modifiedUser.password = response.data.password
                 context.setUser(modifiedUser)
                 localStorage.setItem("user",JSON.stringify(modifiedUser))
@@ -69,4 +73,4 @@ function AdminEdit() {
         </>
     )
 }
-export default AdminEdit;
+export default MovieEdit;

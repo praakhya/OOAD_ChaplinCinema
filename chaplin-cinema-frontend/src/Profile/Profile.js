@@ -1,5 +1,4 @@
 import { Card, Button, Badge, Alert, ButtonToolbar } from "react-bootstrap"
-import { user } from "../testConstants"
 import { useNavigate, useOutletContext } from "react-router-dom"
 import Modal from 'react-bootstrap/Modal';
 import { useState } from "react";
@@ -7,6 +6,8 @@ import { Form } from "react-bootstrap";
 import CustomerEdit from "./CustomerEdit";
 import AdminEdit from "./AdminEdit";
 import TheaterEdit from "./TheaterEdit";
+import CustomerBody from "./CustomerBody";
+import AdminBody from "./AdminBody";
 export default function Profile() {
     const context = useOutletContext()
     const navigate = useNavigate()
@@ -22,9 +23,12 @@ export default function Profile() {
                 <Card style={{ width: '18rem' }} data-bs-theme="light">
                     <Card.Img variant="top" />
                     <Card.Body>
-                        <Card.Title>{user.username}</Card.Title>
-                        <Card.Subtitle><Badge bg="secondary">
-                            {user.grantedAuthorities[0]}
+                        <Card.Title>@{context.user.username}</Card.Title>
+                        <hr/>
+                        <Card.Subtitle>
+                            <Card.Text>{context.user.firstName} {context.user.lastName}</Card.Text>
+                            <Badge bg="secondary">
+                            {context.user.grantedAuthorities[0]}
                         </Badge></Card.Subtitle>
                         <Card.Text>
                             Some quick example text to build on the card title and make up the
@@ -33,39 +37,8 @@ export default function Profile() {
                         <Button variant="light" onClick={showEditDialog}>Edit</Button>
                     </Card.Body>
                 </Card>
-                <div className="w-100">
-                    <div>
-                        <h1>Booked Movies</h1>
-                        {user.Bookings.length != 0 ?
-                            <div>
-                                {user.Bookings.map(m => {
-                                    return <p>{m.title}</p>
-                                })}
-                            </div>
-
-                            :
-                            <Alert variant="secondary">No booking made yet!</Alert>
-                        }
-
-
-                    </div>
-                    <div>
-                        <h1>Watched Movies</h1>
-                        <div>
-                            {user.Bookings.length != 0 ?
-                                <div>
-                                    {user.MoviesWatched.map(m => {
-                                        return <p>{m.title}</p>
-                                    })}
-                                </div>
-
-                                :
-                                <Alert variant="secondary">No movies watched yet!</Alert>
-                            }
-                        </div>
-                    </div>
-
-                </div>
+                {context.user.grantedAuthorities[0]=="CUSTOMER" ? <CustomerBody bookings={context.user.bookings} moviesWatched={context.user.moviesWatched}/> : <></>}
+                {context.user.grantedAuthorities[0]=="ADMIN" ? <AdminBody/> : <></>}
             </div>
 
             <Modal show={show} onHide={closeEditDialog}>
@@ -74,13 +47,13 @@ export default function Profile() {
                 </Modal.Header>
                 <Modal.Body>
                     {
-                    context.user.grantedAuthorities[0]=="CUSTOMER" 
-                    ? <CustomerEdit/>
-                    : context.user.grantedAuthorities[0]=="ADMIN"
-                    ? <AdminEdit/>
-                    : context.user.grantedAuthorities[0]=="THEATER_ADMIN"
-                    ? <TheaterEdit/>
-                    : <></>}
+                        context.user.grantedAuthorities[0] == "CUSTOMER"
+                            ? <CustomerEdit />
+                            : context.user.grantedAuthorities[0] == "ADMIN"
+                                ? <AdminEdit />
+                                : context.user.grantedAuthorities[0] == "THEATER_ADMIN"
+                                    ? <TheaterEdit />
+                                    : <></>}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={closeEditDialog}>

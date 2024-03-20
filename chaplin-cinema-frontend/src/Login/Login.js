@@ -23,9 +23,33 @@ export default function Login() {
             password:password
         },{headers:{ 'Content-Type': 'application/json' }})
         .then((response) => {
-            console.log(response.data)
-            localStorage.setItem("user", JSON.stringify(response.data))
-            context.setUser(response.data)
+            //console.log(response.data)
+            var user = response.data
+            const username = user.username
+            const authToken = user.authToken
+            const path = user.grantedAuthorities[0]=="CUSTOMER" ? "customers" 
+            : user.grantedAuthorities[0]=="ADMIN" ? "admins" 
+            : ""
+
+            path!="" ? axios.get(`${baseUrl}/${path}/username/${username}`, {
+                headers:{
+                    'Content-Type': 'application/json',
+                    "Authorization": "Bearer "+user.authToken.authToken
+                }
+            })
+            .then((response)=>{
+                console.log(response)
+                user = response.data
+                user.authToken = authToken
+                console.log("After body:",user, user.authToken)
+                localStorage.setItem("user", JSON.stringify(user))
+                context.setUser(user)
+            })
+            .catch((err)=>{
+                console.log("err:",err);
+            })
+            : localStorage.setItem("user", JSON.stringify(user))
+            context.setUser(user)
             navigate("/movies")
         })
         .catch((err) => {

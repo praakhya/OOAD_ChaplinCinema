@@ -30,11 +30,15 @@ export default function MoviePage() {
     const descCharLimit = 200
     useEffect(() => {
         getMovies();
+        getGenres();
     }, []);
     useEffect(()=>{
         getMoviesBySearchPhrase(searchPhrase)
         console.log("Search phrase:",searchPhrase)
     },[searchPhrase])
+    useEffect(()=>{
+        console.log("Genres in useeffect",context.genres)
+    },[context.genres])
     function getMovies() {
         console.log("token:", context.user.authToken.authToken)
         axios.get(baseUrl + '/movies', {
@@ -47,6 +51,31 @@ export default function MoviePage() {
                 console.log("response:",response.data.content)
                 context.setMovies(response.data.content)
                 console.log("movies:",context)
+            })
+            .catch((err) => {
+                console.log("err:", err);
+            })
+
+    }
+    function getGenres() {
+        console.log("token:", context.user.authToken.authToken)
+        axios.get(baseUrl + '/genres', {
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + context.user.authToken.authToken
+            }
+        })
+            .then((response) => {
+                console.log("genre response:",response.data)
+                const genres = []
+                response.data.forEach((value) => {
+                    genres.push(value);
+                  });
+                  console.log("genres in moviePage:",genres)
+                  context.setGenres(genres)
+                  localStorage.setItem("genres",JSON.stringify(genres))
+            
+                console.log("context in moviePage:",context)
             })
             .catch((err) => {
                 console.log("err:", err);

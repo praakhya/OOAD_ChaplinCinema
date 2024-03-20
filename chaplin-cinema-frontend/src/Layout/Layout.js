@@ -6,10 +6,13 @@ import { baseUrl } from "../paths";
 import { Dropdown } from "react-bootstrap";
 export default function Layout() {
 
+    localStorage.setItem("genres",JSON.stringify([]))
     var storedUser = JSON.parse(localStorage.getItem("user"));
+    var storedGenres = JSON.parse(localStorage.getItem("genres"))
     console.log("App.js:", storedUser)
     const [user, setUser] = useState(storedUser);
     const [movies, setMovies] = useState([]);
+    const [genres, setGenres] = useState(storedGenres);
 
     const navigate = useNavigate()
     function isLoggedIn() {
@@ -20,7 +23,9 @@ export default function Layout() {
     }
     function logout() {
         localStorage.removeItem("user")
+        localStorage.removeItem("genres")
         setUser(null)
+        setGenres([])
     }
 
     return (
@@ -44,9 +49,7 @@ export default function Layout() {
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
                                         <Dropdown.Header>Welcome {user.username}</Dropdown.Header>
-                                        <Dropdown.Item href="/profile">Profile</Dropdown.Item>
-                                        <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-                                        <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+                                        <Dropdown.Item onClick={()=>navigate("profile")}>Profile</Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
 
@@ -59,7 +62,7 @@ export default function Layout() {
             </Navbar>
 
 
-            <Outlet context={{ user, setUser, movies, setMovies }} />
+            <Outlet context={{ user, setUser, movies, setMovies, genres, setGenres }} />
         </>
     )
 }

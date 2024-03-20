@@ -19,8 +19,8 @@ public class AdminEndpoint {
     private AdminService adminService;
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @RequestMapping(value = Paths.V1.Admins.GetOne, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public  Optional<Admin> getAdminByUsername(@PathVariable(Paths.V1.Admins.GetOnePathVariable) String username) {
+    @RequestMapping(value = Paths.V1.Admins.GetAdminByUsernamePath, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public  Optional<Admin> getAdminByUsername(@PathVariable(Paths.V1.Admins.GetAdminByUsernameVariable) String username) {
         return adminService.findByUsername(username);
     }
     @PreAuthorize("hasAnyAuthority('ADMIN')")
@@ -42,8 +42,8 @@ public class AdminEndpoint {
     public  Optional<Admin> putAdmin(@RequestBody Admin admin) {return adminService.update(admin);}
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    @RequestMapping(value = Paths.V1.Admins.GetOne, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Admin> deleteAdmin(@PathVariable(Paths.V1.Admins.GetOnePathVariable) String username) {
+    @RequestMapping(value = Paths.V1.Admins.GetAdminByUsernamePath, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Optional<Admin> deleteAdmin(@PathVariable(Paths.V1.Admins.GetAdminByUsernamePath) String username) {
         return adminService.delete(username);
     }
 }

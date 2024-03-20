@@ -25,6 +25,10 @@ public class Paths {
             public static final String GetPhrasePathVariable = "moviePhrase";
             public static final String GetPhrasePath = "/search/"+"{" + GetPhrasePathVariable + "}";
         }
+        public class Genres {
+            public static final String Base = "/genres";
+            public static final String fullPath = Paths.V1.fullPath + Base;
+        }
         public class Customers{
             public static final String Base = "/customers";
             public static final String fullPath = Paths.V1.fullPath + Base;
@@ -48,10 +52,10 @@ public class Paths {
         public class Admins {
             public static final String Base = "/admins";
             public static final String fullPath = Paths.V1.fullPath + Base;
-            public static final String GetOnePathVariable = "username";
+            public static final String GetAdminByUsernameVariable = "username";
             public static final String GetOneByIDPathVariable = "id";
 
-            public static final String GetOne = "{" + GetOnePathVariable + "}";
+            public static final String GetAdminByUsernamePath ="/" + GetAdminByUsernameVariable +"/{" + GetAdminByUsernameVariable + "}";
             public static final String GetOneByID = "/" + GetOneByIDPathVariable +"/" + "{" + GetOneByIDPathVariable + "}";
 
         }
