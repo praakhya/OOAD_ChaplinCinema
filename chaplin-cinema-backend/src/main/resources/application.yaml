@@ -1,8 +1,9 @@
 spring:
   data:
     mongodb:
-      user: test
-      uri: mongodb://localhost:27017/chaplin_cinema
+      user: praakhya
+      password: project123
+      uri: mongodb+srv://praakhya:project123@cluster0.4dyf8jd.mongodb.net/sample_mflix
 
 application:
   security:
