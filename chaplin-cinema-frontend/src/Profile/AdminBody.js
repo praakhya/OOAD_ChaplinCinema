@@ -7,6 +7,7 @@ import { baseUrl } from "../paths";
 import { useState } from "react";
 import MovieSearchPage from "../Movie/MovieSearchPage";
 import { SearchedMovieContext } from "../Movie/MoviePage";
+import MovieAdd from "../Movie/MovieAdd";
 function AdminBody() {
   const context = useOutletContext()
   const genreRef = createRef()
@@ -50,51 +51,9 @@ function AdminBody() {
       >
         <Tab eventKey="addMovie" title="Add Movie">
 
-          <Form onSubmit={movieAddRequest}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Genre</Form.Label>
-              <Form.Select className="text-muted" ref={genreRef}>
-                <option>Select Genre</option>
-                {genres.map((genre) => {
-                  return (
-                    <option key={genre.id} value={genre.genreName}>
-                      {genre.genreName}
-                    </option>
-                  );
-                })}
-              </Form.Select>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Language</Form.Label>
-              <Form.Select className="text-muted" ref={languageRef}>
-                <option>Select Language</option>
-                {languages.map((lang) => {
-                  return (
-                    <option key={lang.code} value={lang.code}>
-                      {lang.name}
-                    </option>
-                  );
-                })}
-              </Form.Select>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Original Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter Original Title" ref={originalTitleRef} />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter Title" ref={titleRef} />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Form>
+          <MovieAdd/>
         </Tab>
-        <Tab eventKey="deleteMovie" title="Delete Movie">
-          Tab content for Profile
-        </Tab>
-        <Tab eventKey="updateMovie" title="Update Movie">
+        <Tab eventKey="updateMovie" title="Modify Movie">
           <SearchedMovieContext.Provider value={{ searchPhrase, setSearchPhrase }}>
             <MovieSearchPage />
           </SearchedMovieContext.Provider>

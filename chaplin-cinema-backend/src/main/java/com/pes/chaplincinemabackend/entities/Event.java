@@ -10,8 +10,12 @@ import java.util.Date;
 
 @Data
 public class Event {
+    Event () {
+        ObjectId temp = new ObjectId();
+        this.id = temp.toString();
+    }
     @Id
-    private ObjectId id;
+    private String id;
     private String overview;
     private String poster;
     private Date released;

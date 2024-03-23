@@ -25,7 +25,7 @@ public class MovieService {
     public List<Movie> findByName(String name) {
         return movieRepository.findByName(name);
     }
-    public Optional<Movie> findByID(ObjectId id) {
+    public Optional<Movie> findByID(String id) {
         return movieRepository.findById(id);
     }
 

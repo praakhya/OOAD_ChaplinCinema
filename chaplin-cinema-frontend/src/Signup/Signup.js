@@ -3,47 +3,49 @@ import { useState, createRef } from "react";
 import axios from "axios";
 import { baseUrl } from "../paths";
 
-const customerRef = {username:createRef(), password:createRef(), firstname:createRef(), lastname:createRef()}
-const adminRef = {username:createRef(), password:createRef()}
-const theaterAdminRef = {username:createRef(), password:createRef(), theatername:createRef(), address:createRef()}
+const customerRef = { username: createRef(), password: createRef(), firstname: createRef(), lastname: createRef() }
+const adminRef = { username: createRef(), password: createRef() }
+const theaterAdminRef = { username: createRef(), password: createRef(), theatername: createRef(), address: createRef() }
 
 export default function Signup() {
-    const [responseStatus, setResponseStatus] = useState({message:"",code:""})
+    const [responseStatus, setResponseStatus] = useState({ message: "", code: "" })
 
     const [key, setKey] = useState('customer');
     function adminSignup() {
         console.log(adminRef)
-        axios.post(baseUrl + '/admins',{
-            username:adminRef.username.current.value,
-            password:adminRef.password.current.value
-        },{headers:{ 'Content-Type': 'application/json' }})
-        .then((response) => {
-            console.log("On signup: ",response)
-            setResponseStatus({
-                message:"Signup was successful. Login with your credentials",
-                code:response.status.code
+        axios.post(baseUrl + '/admins', {
+            username: adminRef.username.current.value,
+            password: adminRef.password.current.value
+        }, { headers: { 'Content-Type': 'application/json' } })
+            .then((response) => {
+                console.log("On signup: ", response)
+                setResponseStatus({
+                    message: "Signup was successful. Login with your credentials",
+                    code: response.status.code
+                })
             })
-        })
-        .catch((err) => {
-            console.log("err:",err);
-            })   
+            .catch((err) => {
+                console.log("err:", err);
+            })
     }
     function customerSignup() {
         console.log(customerRef)
-        axios.post(baseUrl + '/admins',{
-            username:customerRef.username.current.value,
-            password:customerRef.password.current.value
-        },{headers:{ 'Content-Type': 'application/json' }})
-        .then((response) => {
-            console.log("On signup: ",response)
-            setResponseStatus({
-                message:"Signup was successful. Login with your credentials",
-                code:response.status.code
+        axios.post(baseUrl + '/customers', {
+            username: customerRef.username.current.value,
+            password: customerRef.password.current.value,
+            firstName: customerRef.firstname.current.value,
+            lastName: customerRef.lastname.current.value,
+        }, { headers: { 'Content-Type': 'application/json' } })
+            .then((response) => {
+                console.log("On signup: ", response)
+                setResponseStatus({
+                    message: "Signup was successful. Login with your credentials",
+                    code: response.status.code
+                })
             })
-        })
-        .catch((err) => {
-            console.log("err:",err);
-            })   
+            .catch((err) => {
+                console.log("err:", err);
+            })
     }
     return (
         <div className="d-flex justify-content-center w-100 h-100 m-2">
@@ -89,12 +91,12 @@ export default function Signup() {
                                 />
                             </InputGroup>
                             <Card.Footer className="d-flex flex-row justify-content-between">
-                                <Button variant="secondary">Signup</Button>
+                                <Button variant="secondary" onClick={customerSignup}>Signup</Button>
                                 <NavLink href="/login">Login</NavLink>
                             </Card.Footer>
                         </Tab>
                         <Tab eventKey="admin" title="Admin">
-                        <InputGroup className="mb-3">
+                            <InputGroup className="mb-3">
                                 <InputGroup.Text id="basic-addon1">Username</InputGroup.Text>
                                 <Form.Control
                                     placeholder="Enter your Username"
@@ -115,7 +117,7 @@ export default function Signup() {
                             </Card.Footer>
                         </Tab>
                         <Tab eventKey="theater" title="Theater">
-                        <InputGroup className="mb-3">
+                            <InputGroup className="mb-3">
                                 <InputGroup.Text id="basic-addon1">Username</InputGroup.Text>
                                 <Form.Control
                                     placeholder="Enter your Username"
@@ -153,11 +155,11 @@ export default function Signup() {
                     </Tabs>
 
                     {
-                        responseStatus.status==200 ? <Alert variant="success">{responseStatus.message}</Alert> 
-                        : responseStatus.status!="" ? <Alert variant="failure">{responseStatus.message}</Alert>
-                        : <></>
+                        responseStatus.status == 200 ? <Alert variant="success">{responseStatus.message}</Alert>
+                            : responseStatus.status != "" ? <Alert variant="failure">{responseStatus.message}</Alert>
+                                : <></>
                     }
-                    
+
                 </Card.Body>
             </Card>
         </div>

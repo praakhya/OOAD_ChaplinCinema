@@ -21,6 +21,7 @@ export default function Layout() {
     function logout() {
         localStorage.removeItem("user")
         setUser(null)
+        navigate("/")
     }
 
     return (

@@ -3,6 +3,7 @@ package com.pes.chaplincinemabackend.entities;
 import com.pes.chaplincinemabackend.common.entities.AbstractBase;
 import lombok.Builder;
 import lombok.Data;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 

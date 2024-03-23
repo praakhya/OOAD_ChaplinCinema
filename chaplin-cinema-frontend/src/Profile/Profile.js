@@ -31,8 +31,9 @@ export default function Profile() {
                             {context.user.grantedAuthorities[0]}
                         </Badge></Card.Subtitle>
                         <Card.Text>
-                            Some quick example text to build on the card title and make up the
-                            bulk of the card's content.
+                            <b>Username:</b> {context.user.username}
+                            <br/>
+                            <b>ID:</b> {context.user.id}
                         </Card.Text>
                         <Button variant="light" onClick={showEditDialog}>Edit</Button>
                     </Card.Body>

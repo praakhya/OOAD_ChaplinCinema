@@ -29,6 +29,10 @@ public class MovieEndpoint {
                                   @RequestParam(value = Paths.sizeVariable, defaultValue = "50") Integer size) {
         return movieService.findAll(page, size);
     }
+    @RequestMapping(value=Paths.V1.Movies.GetOne ,method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public Optional<Movie> getMovieById(@PathVariable(Paths.V1.Movies.GetOnePathVariable) String id) {
+        return movieService.findByID(id);
+    }
     @RequestMapping(value = Paths.V1.Movies.GetPhrasePath, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<Movie> getMoviesByPhrase(@PathVariable(Paths.V1.Movies.GetPhrasePathVariable) String phrase,
                                          @RequestParam(value = Paths.pageVariable, defaultValue = "0") Integer page,
@@ -47,7 +51,7 @@ public class MovieEndpoint {
         return movieService.update(movie);
     }
     @RequestMapping(value = Paths.V1.Movies.GetOne, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Movie> deleteMovieDetails(@PathVariable(Paths.V1.Movies.GetOnePathVariable) ObjectId movieId) {
+    public Optional<Movie> deleteMovieDetails(@PathVariable(Paths.V1.Movies.GetOnePathVariable) String movieId) {
         Movie movie = movieService.findByID(movieId).orElseThrow(() -> new EntityDoesNotExistException(String.format(ExceptionMessage.ENTITY_DOES_NOT_EXIST.getError(), movieId.toString()),
         String.format(ENTITY_DOES_NOT_EXIST.getReason(), movieId.toString())));
         movieService.deleteMovie(movie);

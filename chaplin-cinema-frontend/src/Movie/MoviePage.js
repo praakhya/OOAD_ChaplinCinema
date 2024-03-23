@@ -27,6 +27,9 @@ export default function MoviePage() {
     var [searchPhrase, setSearchPhrase] = useState("")
     const descCharLimit = 200
     useEffect(() => {
+        if (context.user == null) {
+            navigate("/login")
+        }
         getMovies();
     }, []);
     
@@ -116,7 +119,7 @@ export default function MoviePage() {
                                 </Card>
                                 :
                                 <Card className='d-flex flex-column' style={{ width: "200px" }} data-bs-theme="light" key={key++}>
-                                    <Card.Img variant="top" src={movie.posterPath} style={{ width: "200px" }} />
+                                    <Card.Img variant="top" src={movie.poster} style={{ width: "200px" }} />
                                     <Card.Body>
                                         <Card.Title>{movie.title}</Card.Title>
                                         <Button variant="secondary" onClick={() => navigate(`/movie/${movie.id}`)}>Book</Button>
@@ -124,7 +127,7 @@ export default function MoviePage() {
                                 </Card>
                         }
                         ):<></>}
-                </div>
+                </div>                
             </div>
     )
 
