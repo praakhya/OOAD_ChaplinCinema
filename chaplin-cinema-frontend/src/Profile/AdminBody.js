@@ -4,37 +4,43 @@ import { languages } from "../language";
 import { createRef } from "react";
 import axios from "axios";
 import { baseUrl } from "../paths";
+import { useState } from "react";
+import MovieSearchPage from "../Movie/MovieSearchPage";
+import { SearchedMovieContext } from "../Movie/MoviePage";
 function AdminBody() {
   const context = useOutletContext()
   const genreRef = createRef()
   const languageRef = createRef()
   const titleRef = createRef()
   const originalTitleRef = createRef()
+  const genres = []
+
+  var [searchPhrase, setSearchPhrase] = useState("")
+  var [searchedMovies, setSearchedMovies] = useState([])
   console.log("CONTEXT IN ADMIN:", context)
-  const genres = context.genres
   console.log("Genres:", genres)
   function movieAddRequest(event) {
     event.preventDefault()
-    console.log("Genre ref:",genreRef.current.value,genres.find((element) => element.genreName === genreRef.current.value))
+    console.log("Genre ref:", genreRef.current.value, genres.find((element) => element.genreName === genreRef.current.value))
     axios.post(baseUrl + '/movies', {
-        originalTitle: originalTitleRef.current.value,
-        title: titleRef.current.value,
-        originalLanguage: languageRef.current.value,
-        genreIds: [genres.find((element) => element.genreName === genreRef.current.value).id]
+      originalTitle: originalTitleRef.current.value,
+      title: titleRef.current.value,
+      originalLanguage: languageRef.current.value,
+      genreIds: [genres.find((element) => element.genreName === genreRef.current.value).id]
     },
-    {
+      {
         headers: {
-            'Content-Type': 'application/json',
-            "Authorization": "Bearer " + context.user.authToken.authToken
+          'Content-Type': 'application/json',
+          "Authorization": "Bearer " + context.user.authToken.authToken
         }
-    })
-        .then((response) => {
-            console.log("response:",response.data)
-        })
-        .catch((err) => {
-            console.log("err:", err);
-        })
-}
+      })
+      .then((response) => {
+        console.log("response:", response.data)
+      })
+      .catch((err) => {
+        console.log("err:", err);
+      })
+  }
   return (
     <div className="w-100">
       <Tabs
@@ -74,11 +80,11 @@ function AdminBody() {
 
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Original Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter Original Title" ref={originalTitleRef}/>
+              <Form.Control type="text" placeholder="Enter Original Title" ref={originalTitleRef} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Label>Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter Title" ref={titleRef}/>
+              <Form.Control type="text" placeholder="Enter Title" ref={titleRef} />
             </Form.Group>
             <Button variant="primary" type="submit">
               Submit
@@ -89,7 +95,9 @@ function AdminBody() {
           Tab content for Profile
         </Tab>
         <Tab eventKey="updateMovie" title="Update Movie">
-          Tab content for Profile
+          <SearchedMovieContext.Provider value={{ searchPhrase, setSearchPhrase }}>
+            <MovieSearchPage />
+          </SearchedMovieContext.Provider>
         </Tab>
       </Tabs>
     </div>

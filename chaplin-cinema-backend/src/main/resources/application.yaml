@@ -3,7 +3,7 @@ spring:
     mongodb:
       user: praakhya
       password: project123
-      uri: mongodb://localhost:27017/chaplin_cinema
+      uri: mongodb+srv://praakhya:project123@cluster0.4dyf8jd.mongodb.net/chaplin_cinema
 
 application:
   security:

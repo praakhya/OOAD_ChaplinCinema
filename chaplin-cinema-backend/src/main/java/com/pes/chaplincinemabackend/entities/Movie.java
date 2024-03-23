@@ -7,23 +7,26 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @Data
 @Document("movie")
 public class Movie extends Event {
-    @Field(name = "genre_ids")
-    private List<Long> genreIds;
-    @Field(name = "original_language")
-    private String originalLanguage;
-    @Field(name = "original_title")
-    private String originalTitle;
-    private Float popularity;
-    @Field(name = "vote_average")
-    private Float voteAverage;
-    @Field(name = "vote_count")
-    private Integer voteCount;
-    private Integer movie_id;
+    @Field(name ="fullplot")
+    private String overview;
+    private List<String> genres;
+    private Integer runtime;
+    private List<String> cast;
+    @Field(name = "languages")
+    private List<String> languages;
+    private List<String> directors;
+    private List<String> writers;
+    private Integer year;
+    private IMDB imdb;
+    private List<String> countries;
+    private String type;
+    private Tomatoes tomatoes;
 
 }

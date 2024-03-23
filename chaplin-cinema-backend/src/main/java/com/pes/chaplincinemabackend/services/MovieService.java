@@ -5,6 +5,7 @@ import com.pes.chaplincinemabackend.common.exceptions.EntityDoesNotExistExceptio
 import com.pes.chaplincinemabackend.common.exceptions.ExceptionMessage;
 import com.pes.chaplincinemabackend.entities.Movie;
 import com.pes.chaplincinemabackend.repositories.MovieRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +25,7 @@ public class MovieService {
     public List<Movie> findByName(String name) {
         return movieRepository.findByName(name);
     }
-    public Optional<Movie> findByID(UUID id) {
+    public Optional<Movie> findByID(ObjectId id) {
         return movieRepository.findById(id);
     }
 

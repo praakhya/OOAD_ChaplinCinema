@@ -47,11 +47,16 @@ export default function MoviePreview() {
                     </Card.Body>
                 </div> : <></>}
             </Card>
-            <div className="d-flex flex-column align-items-center m-5">
+            {context.user.grantedAuthorities[0]=="CUSTOMER" ? <div className="d-flex flex-column align-items-center m-5">
                 <Alert variant="secondary">
                     Booking Selection feature is yet to be added
                 </Alert>
-            </div>
+            </div> : <></>}
+            {
+                context.user.grantedAuthorities[0] == "ADMIN" ? <Card className="p-5">
+                    <Card.Title className="fs-1">Admin Panel</Card.Title>
+                </Card> : <></>
+            }
         </div>
     )
 }

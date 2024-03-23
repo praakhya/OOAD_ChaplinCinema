@@ -2,16 +2,18 @@ package com.pes.chaplincinemabackend.entities;
 
 import com.pes.chaplincinemabackend.common.entities.AbstractBase;
 import lombok.Data;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
 
 @Data
-public class Event extends AbstractBase {
+public class Event {
+    @Id
+    private ObjectId id;
     private String overview;
-    @Field(name = "poster_path")
-    private String posterPath;
-    @Field(name = "release_date")
-    private Date releaseDate;
+    private String poster;
+    private Date released;
     private String title;
 }

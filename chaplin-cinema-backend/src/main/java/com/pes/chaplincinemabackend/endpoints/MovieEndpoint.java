@@ -5,6 +5,7 @@ import com.pes.chaplincinemabackend.common.exceptions.ExceptionMessage;
 import com.pes.chaplincinemabackend.common.utils.Paths;
 import com.pes.chaplincinemabackend.entities.Movie;
 import com.pes.chaplincinemabackend.services.MovieService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
@@ -46,7 +47,7 @@ public class MovieEndpoint {
         return movieService.update(movie);
     }
     @RequestMapping(value = Paths.V1.Movies.GetOne, method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Optional<Movie> deleteMovieDetails(@PathVariable(Paths.V1.Movies.GetOnePathVariable) UUID movieId) {
+    public Optional<Movie> deleteMovieDetails(@PathVariable(Paths.V1.Movies.GetOnePathVariable) ObjectId movieId) {
         Movie movie = movieService.findByID(movieId).orElseThrow(() -> new EntityDoesNotExistException(String.format(ExceptionMessage.ENTITY_DOES_NOT_EXIST.getError(), movieId.toString()),
         String.format(ENTITY_DOES_NOT_EXIST.getReason(), movieId.toString())));
         movieService.deleteMovie(movie);
