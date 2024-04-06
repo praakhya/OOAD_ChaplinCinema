@@ -25,8 +25,9 @@ public class MovieService {
     public List<Movie> findByName(String name) {
         return movieRepository.findByName(name);
     }
-    public Optional<Movie> findByID(String id) {
-        return movieRepository.findById(id);
+    public Movie findByID(String id) {
+        return movieRepository.findById(id).orElseThrow(() -> new EntityDoesNotExistException(String.format(ExceptionMessage.ENTITY_DOES_NOT_EXIST.getReason(), id),
+                String.format(ExceptionMessage.ENTITY_DOES_NOT_EXIST.getError(), id)));
     }
 
     public Page<Movie> findAll(int page, int size) {

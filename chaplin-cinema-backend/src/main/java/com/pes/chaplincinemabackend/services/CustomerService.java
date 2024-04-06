@@ -8,6 +8,7 @@ import com.pes.chaplincinemabackend.common.exceptions.ExceptionMessage;
 import com.pes.chaplincinemabackend.entities.Customer;
 import com.pes.chaplincinemabackend.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -84,4 +85,7 @@ public class CustomerService {
 
     }
 
+    public List<Customer> searchCustomerBySubstring(String phrase) {
+        return customerRepository.searchCustomerBySubstring(phrase);
+    }
 }

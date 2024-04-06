@@ -8,8 +8,11 @@ import AdminEdit from "./AdminEdit";
 import TheaterEdit from "./TheaterEdit";
 import CustomerBody from "./CustomerBody";
 import AdminBody from "./AdminBody";
+import { createContext } from "react";
+export const SearchedCustomerContext = createContext()
 export default function Profile() {
     const context = useOutletContext()
+    var [searchPhrase, setSearchPhrase] = useState("")
     const navigate = useNavigate()
     const [show, setShow] = useState(false);
     const closeEditDialog = () => setShow(false);

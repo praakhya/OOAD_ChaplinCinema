@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Hello World!</title>
+</head>
+<body>
+<h1 th:inline="text">Hello <span th:remove="tag" sec:authentication="name">thymeleaf</span>!</h1>
+<div>
+    <div>Authenticated username: <div sec:authentication="name"></div> </div>
+    <div>Authenticated user roles: <div sec:authentication="principal.authorities"></div> </div>
+</div>
+<div>
+    <div sec:authorize="isAuthenticated()">You are successfully authenticated</div>
+    <div sec:authorize="hasRole('CUSTOMER')">You got customer role</div>
+    <div sec:authorize="hasRole('ADMIN')">You got admin role</div>
+</div>
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+</body>
+</html>

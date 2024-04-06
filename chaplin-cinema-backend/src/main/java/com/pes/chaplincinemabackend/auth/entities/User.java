@@ -18,7 +18,7 @@ public class User extends AbstractBase implements UserDetails {
     public User() {
         this.id = UUID.randomUUID();
     }
-    private String profilePictureURL;
+    private String profilePictureURL = "/images/placeholderProfile.jpeg";
     private String username;
 
     private String password;
@@ -58,5 +58,9 @@ public class User extends AbstractBase implements UserDetails {
     @JsonIgnore
     public boolean isEnabled() {
         return enabled;
+    }
+
+    public String getProfilePictureURL() {
+        return profilePictureURL;
     }
 }

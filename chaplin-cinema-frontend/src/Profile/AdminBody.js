@@ -8,6 +8,8 @@ import { useState } from "react";
 import MovieSearchPage from "../Movie/MovieSearchPage";
 import { SearchedMovieContext } from "../Movie/MoviePage";
 import MovieAdd from "../Movie/MovieAdd";
+import { SearchedCustomerContext } from "./Profile";
+import CustomerSearchPage from "./CustomerSearchPage";
 function AdminBody() {
   const context = useOutletContext()
   const genreRef = createRef()
@@ -17,6 +19,7 @@ function AdminBody() {
   const genres = []
 
   var [searchPhrase, setSearchPhrase] = useState("")
+  var [searchCustomerPhrase, setSearchCustomerPhrase] = useState("")
   var [searchedMovies, setSearchedMovies] = useState([])
   console.log("CONTEXT IN ADMIN:", context)
   console.log("Genres:", genres)
@@ -57,6 +60,11 @@ function AdminBody() {
           <SearchedMovieContext.Provider value={{ searchPhrase, setSearchPhrase }}>
             <MovieSearchPage />
           </SearchedMovieContext.Provider>
+        </Tab>
+        <Tab eventKey="updateMovie" title="Delete User">
+          <SearchedCustomerContext.Provider value={{ searchCustomerPhrase, setSearchCustomerPhrase }}>
+            <CustomerSearchPage />
+          </SearchedCustomerContext.Provider>
         </Tab>
       </Tabs>
     </div>
