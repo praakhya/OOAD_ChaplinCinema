@@ -43,7 +43,7 @@ public class AdminService {
         return save(admin);
     }
 
-    private Optional<Admin> save(Admin admin) {
+    public Optional<Admin> save(Admin admin) {
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         admin.setGrantedAuthorities(Set.of(Role.ADMIN));
         admin.setCreatedAt(new Date());

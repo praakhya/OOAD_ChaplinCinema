@@ -7,8 +7,18 @@
 
 </head>
 <body>
+<div class="navbar bg-body-tertiary">
+    <h5>Chaplin Cinema</h5>
+    <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+        <input type="submit" value="Log Out" class="btn btn-primary"/>
+    </form>
+    <div>
+        <a class="btn btn-primary" sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a>
+        <a class="btn btn-primary" th:href="@{/movies}">Browse Movies</a>
+    </div>
+</div>
     <div class="row m-5">
-        <div class="col-auto">
+        <div class="col-auto w-25">
             <div class="card p-3">
                 <div class="card-title">
                     <h3>Welcome</h3>
@@ -17,11 +27,76 @@
                     </h4>
                 </div>
                 <div class="card-body">
-                    <img th:src="${user.getProfilePictureURL()}" class="rounded" alt="...">
+                    <img th:src="${user.getProfilePictureURL()}" class="rounded-circle w-100" alt="...">
+                </div>
+                <div class="list-group list-group-flush" sec:authorize="hasAuthority('CUSTOMER')">
+                    <div class="list-group-item">
+                        First name: <span th:text="${user.getFirstName()}"></span>
+                    </div>
+                    <div class="list-group-item">
+                        Last name: <span th:text="${user.getLastName()}"></span>
+                    </div>
+                </div>
+                <a class="btn btn-outline-primary" th:href="@{/profile/edit}">Edit profile</a>
+            </div>
+        </div>
+        <div class="col-auto" sec:authorize="hasAuthority('CUSTOMER')">
+            <div>
+                <h3>Booked Movies</h3>
+                <div class="list-group" th:if="!${user.getBookings().empty}">
+                    <div class="list-group-item" th:each="movie: ${user.getBookings()}" th:text="${movie.title}"></div>
+                </div>
+                <div class="list-group" th:if="${user.getBookings().empty}">
+                    <div class="list-group-item"> No movies booked yet. Book now!</div>
                 </div>
             </div>
         </div>
-        <div class="col-auto">
+        <div class="col-auto" sec:authorize="hasAuthority('ADMIN')">
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#movieoffcanvasExample" aria-controls="movieoffcanvasExample">
+                Modify movies in database
+            </button>
+
+
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="movieoffcanvasExample" aria-labelledby="movieoffcanvasExampleLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="movieoffcanvasExampleLabel">Movie Database</h5>
+                    <button type="button" class="btn-close" data-bs-toggle="offcanvas" data-bs-target="#movieoffcanvasExample" data-bs-dismiss="movieoffcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div>
+                        Search for movies to modify...
+                    </div>
+                    <form class="row g-3 align-items-center justify-content-center" th:action="@{/movies/search}" method="get" role="search">
+                        <label for="substr" class="col-auto">Search a movie</label>
+                        <input type="text" id="substr" class="col-auto" aria-describedby="searchHelp" th:name="substr">
+                        <input class="btn btn-outline-success" type="submit" id="searchHelp">
+                    </form>
+                    <button data-bs-toggle="offcanvas" data-bs-target="#movieoffcanvasExample" class="btn btn-outline-secondary">Clear Search</button>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#useroffcanvasExample" aria-controls="useroffcanvasExample">
+                Modify users in database
+            </button>
+
+
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="useroffcanvasExample" aria-labelledby="useroffcanvasExampleLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="useroffcanvasExampleLabel">User Database</h5>
+                    <button type="button" class="btn-close" data-bs-toggle="offcanvas" data-bs-target="#useroffcanvasExample" data-bs-dismiss="useroffcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div>
+                        Search for users to modify...
+                    </div>
+                    <form class="row g-3 align-items-center justify-content-center" th:action="@{/customers/search}" method="get" role="search">
+                        <label class="col-auto">Search a user</label>
+                        <input type="text" class="col-auto" th:name="substr">
+                        <input class="btn btn-outline-success" type="submit">
+                    </form>
+                    <button data-bs-toggle="offcanvas" data-bs-target="#useroffcanvasExample" class="btn btn-outline-secondary">Clear Search</button>
+                </div>
+            </div>
         </div>
     </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

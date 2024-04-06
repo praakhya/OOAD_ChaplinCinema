@@ -1,6 +1,11 @@
 package com.pes.chaplincinemabackend.mvcendpoint;
 
 import com.pes.chaplincinemabackend.common.utils.Paths;
+import com.pes.chaplincinemabackend.entities.Customer;
+import com.pes.chaplincinemabackend.repositories.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +17,11 @@ import java.security.Principal;
 @Controller
 @RequestMapping(Paths.Login.Base)
 public class LoginEndpoint {
+
+    @Autowired
+    private CustomerRepository customerRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @RequestMapping()
     public String login(Model model, Principal principal) {

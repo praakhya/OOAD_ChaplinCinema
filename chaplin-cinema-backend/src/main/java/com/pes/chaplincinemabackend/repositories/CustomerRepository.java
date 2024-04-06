@@ -15,7 +15,7 @@ import java.util.UUID;
 public interface CustomerRepository extends MongoRepository<Customer, UUID> {
     @Query("{username: ?0}")
     Optional<Customer> findCustomerByUsername(String username);
-    @Query("{username:{$regex:/.*?0.*/, $options: 'i'}}")
+    @Query("{$and:[{username:{$regex:/.*?0.*/, $options: 'i'}},{grantedAuthorities: 'CUSTOMER'}]}")
     List<Customer> searchCustomerBySubstring(String substring);
 
     @Query("{$and:[{firstName: ?0},{grantedAuthorities: 'CUSTOMER'}]}")

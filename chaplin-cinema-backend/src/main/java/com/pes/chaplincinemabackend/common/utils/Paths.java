@@ -35,6 +35,10 @@ public class Paths {
 
         public static final String Base = "/login";
     }
+    public class Signup {
+
+        public static final String Base = "/signup";
+    }
 
     public class Admins {
         public static final String Base = "/admins";

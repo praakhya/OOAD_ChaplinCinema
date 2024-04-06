@@ -16,14 +16,12 @@ import java.util.stream.Collectors;
 @Data
 public class User extends AbstractBase implements UserDetails {
     public User() {
-        this.id = UUID.randomUUID();
+        super(UUID.randomUUID());
     }
     private String profilePictureURL = "/images/placeholderProfile.jpeg";
     private String username;
 
     private String password;
-    @Id
-    private UUID id;
     private Set<Role> grantedAuthorities;
     private boolean expired = false;
     private boolean locked = false;

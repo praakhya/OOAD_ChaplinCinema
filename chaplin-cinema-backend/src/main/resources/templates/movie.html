@@ -12,6 +12,7 @@
     <form th:action="@{/logout}" method="post">
         <input type="submit" value="Sign Out" class="btn btn-primary"/>
     </form>
+    <a class="btn btn-primary" th:href="@{/movies}">Browse Movies</a>
 </div>
 <div class="alert alert-warning" role="alert" sec:authorize="!isAuthenticated()">
     Login to book this movie!
@@ -28,7 +29,7 @@
                 <p class="card-text" th:text="${movie.overview}">Overview</p>
                 <div role="alert" sec:authorize="isAuthenticated()">
                 <a class="btn btn-primary" sec:authorize="hasAuthority('CUSTOMER')">Book</a>
-                <a class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')">Edit</a>
+                <a class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')" th:href="@{/movies/edit/{id}(id=${movie.id})}">Edit</a>
                 </div>
                 <div role="alert" sec:authorize="!isAuthenticated()">
                     <a class="btn btn-primary disabled" sec:authorize="hasAuthority('CUSTOMER')">Book</a>

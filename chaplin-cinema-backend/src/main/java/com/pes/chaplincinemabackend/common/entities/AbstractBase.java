@@ -14,10 +14,12 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public abstract class AbstractBase {
 
-    private UUID id = UUID.randomUUID();
+    public AbstractBase(UUID id) {
+        this.id = id;
+    }
+    private UUID id;
 
     @CreatedBy
     private String createdBy;

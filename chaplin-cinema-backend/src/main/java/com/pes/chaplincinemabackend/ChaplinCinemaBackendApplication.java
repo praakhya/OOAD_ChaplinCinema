@@ -7,6 +7,8 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.pes.chaplincinemabackend.auth.factories.IdentityPasswordEncoderFactories;
+import com.pes.chaplincinemabackend.entities.Customer;
+import com.pes.chaplincinemabackend.repositories.CustomerRepository;
 import jakarta.annotation.PostConstruct;
 import org.bson.Document;
 import org.bson.UuidRepresentation;
@@ -20,6 +22,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.text.ParseException;
@@ -37,6 +40,9 @@ public class ChaplinCinemaBackendApplication {
 
 	@Autowired
 	private MongoTemplate mongoTemplate;
+
+	@Autowired
+	private CustomerRepository customerRepository;
 	public static void main(String[] args) {
 		SpringApplication.run(ChaplinCinemaBackendApplication.class, args);
 	}

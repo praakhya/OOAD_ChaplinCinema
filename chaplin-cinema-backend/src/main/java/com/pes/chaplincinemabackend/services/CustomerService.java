@@ -41,7 +41,6 @@ public class CustomerService {
     }
     public Optional<Customer> findByID(UUID id) {
         Customer customer = customerRepository.findById(id).orElseThrow(()->new UsernameNotFoundException(id.toString()));
-        customer.setPassword(null);
         return Optional.of(customer);
     }
     public List<Customer> findAll() {
@@ -55,6 +54,7 @@ public class CustomerService {
             throw new EntityAlreadyExistsException(String.format(ExceptionMessage.USER_ALREADY_EXISTS.getReason(), user.getUsername()),
                     String.format(ExceptionMessage.USER_ALREADY_EXISTS.getError(), user.getUsername()));
         }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return save(user);
     }
     public Optional<Customer> update(Customer user) {
@@ -65,8 +65,7 @@ public class CustomerService {
                 String.format(ExceptionMessage.ENTITY_DOES_NOT_EXIST.getError(), user.getUsername())));
         return save(user);
     }
-    private Optional<Customer> save(Customer customer) {
-        customer.setPassword(passwordEncoder.encode(customer.getPassword()));
+    public Optional<Customer> save(Customer customer) {
         customer.setGrantedAuthorities(Set.of(Role.CUSTOMER));
         customer.setCreatedAt(new Date());
         customer.setCreatedBy(customer.getUsername());
