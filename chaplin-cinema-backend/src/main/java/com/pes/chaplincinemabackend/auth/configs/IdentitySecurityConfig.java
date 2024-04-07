@@ -22,7 +22,8 @@ public class IdentitySecurityConfig {
         httpSecurity
                 .authorizeHttpRequests((auth) -> auth.requestMatchers(
                                         "/css/**",
-                                        "/js/**"
+                                        "/js/**",
+                                        "/images/**"
                                 ).permitAll() //.permitAll() means that these requests don't require authentication, they are permitted
                                 .requestMatchers("/", "/home", "/movies/**", "/customers/**", "/signup/**").permitAll()
                                 .anyRequest().authenticated()

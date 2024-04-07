@@ -61,4 +61,8 @@ public class User extends AbstractBase implements UserDetails {
     public String getProfilePictureURL() {
         return profilePictureURL;
     }
+
+    public boolean isAdmin() {
+        return grantedAuthorities.contains(Role.ADMIN);
+    }
 }

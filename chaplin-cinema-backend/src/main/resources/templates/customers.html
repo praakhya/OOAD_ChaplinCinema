@@ -32,7 +32,7 @@
                     <h5 class="card-title" th:text="${customer.getUsername()}">Username</h5>
                     <p class="card-text text-truncate" th:text="${customer.getFirstName()}">First Name</p>
                     <p class="card-text text-truncate" th:text="${customer.getLastName()}">First Name</p>
-                    <form th:action="@{/customers/{username}(username=${customer.username})}" method="delete" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/customers/{username}(username=${customer.getUsername()})}" th:method="delete" _method=DELETE sec:authorize="isAuthenticated()">
                         <input type="submit" value="Delete" class="btn btn-danger"/>
                     </form>
                 </div>

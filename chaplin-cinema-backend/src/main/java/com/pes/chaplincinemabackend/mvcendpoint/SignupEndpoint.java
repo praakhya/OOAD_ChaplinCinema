@@ -10,6 +10,7 @@ import com.pes.chaplincinemabackend.repositories.CustomerRepository;
 import com.pes.chaplincinemabackend.services.AdminService;
 import com.pes.chaplincinemabackend.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,27 +45,19 @@ public class SignupEndpoint {
     }
     @RequestMapping(value="/customer", method = RequestMethod.POST)
     public String signupCustomerPost(
-        @RequestParam("username") String username,
-        @RequestParam("password") String password,
-        @RequestParam("firstname") String firstName,
-        @RequestParam("lastname") String lastName,
-                            Model model,
-                            Principal principal) {
-        Customer storedCustomer = customerService.findByUsername(username).get();
-        if (storedCustomer==null) {
-            throw new EntityAlreadyExistsException(ExceptionMessage.USER_ALREADY_EXISTS.getError(), ExceptionMessage.USER_ALREADY_EXISTS.getReason());
-        }
-        else {
-            System.out.println("Called post on signup");
-            Customer customer = new Customer();
-            customer.setUsername(username);
-            customer.setPassword(passwordEncoder.encode(password));
-            customer.setFirstName(firstName);
-            customer.setLastName(lastName);
-            customerService.save(customer);
-            System.out.println("CUSTOMER:"+customer);
-        }
-
+            @RequestParam("username") String username,
+            @RequestParam("password") String password,
+            @RequestParam("firstname") String firstName,
+            @RequestParam("lastname") String lastName,
+            Model model,
+            Principal principal) {
+        Customer customer = new Customer();
+        customer.setUsername(username);
+        customer.setFirstName(firstName);
+        customer.setLastName(lastName);
+        customer.setPassword(password);
+        customer.setEnabled(true);
+        Customer storedCustomer = customerService.create(customer).orElseThrow(() -> new UsernameNotFoundException(username));
         return "login";
     }
     @RequestMapping(value="/admin", method = RequestMethod.POST)

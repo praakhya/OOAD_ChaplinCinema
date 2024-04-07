@@ -6,6 +6,7 @@ import com.pes.chaplincinemabackend.common.exceptions.EntityAlreadyExistsExcepti
 import com.pes.chaplincinemabackend.common.exceptions.ExceptionMessage;
 import com.pes.chaplincinemabackend.auth.repositiories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +46,25 @@ public class UserService {
         user.setUpdatedBy(user.getUsername());
         return Optional.of(userRepository.save(user));
     }
+    public Optional<User> delete(String username) {
+        User user = userRepository.findUsersByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        userRepository.deleteById(user.getId());
+        return Optional.of(user);
+    }
+    public Optional<User> delete(UUID id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(id.toString()));
+        userRepository.deleteById(user.getId());
+        return Optional.of(user);
+    }
 
+    public void makeAdmin(UUID id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(id.toString()));
+        user.getGrantedAuthorities().add(Role.ADMIN);
+        userRepository.save(user);
+    }
+    public void removeAdmin(UUID id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(id.toString()));
+        user.getGrantedAuthorities().remove(Role.ADMIN);
+        userRepository.save(user);
+    }
 }

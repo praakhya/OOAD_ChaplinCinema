@@ -10,15 +10,7 @@
 <div class="navbar bg-body-tertiary">
     <h5>Chaplin Cinema</h5>
 
-    <form class="row g-3 align-items-center justify-content-center" th:action="@{/movies/search}" method="get" role="search">
-        <label for="substr" class="col-auto">Search a movie</label>
-        <input type="text" id="substr" class="col-auto" aria-describedby="searchHelp" th:name="substr">
-        <input class="btn btn-sm btn-outline-success col-auto" type="submit" id="searchHelp">
-        <a th:href="@{/movies}" class="btn btn-sm btn-outline-secondary col-auto">Clear Search</a>
-    </form>
-
     <a class="btn btn-primary" sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a>
-    <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-primary d-flex flex-row" th:href="@{/users}">Manage Users</a>
     <div class="d-flex flex-row">
     <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
         <input type="submit" value="Log Out" class="btn btn-primary"/>
@@ -29,23 +21,23 @@
 </div>
 ̄
 
-<div th:each="movie : ${movies}">
+<div th:each="user : ${users}">
     <div class="card mb-3 w-75 m-auto">
         <div class="row g-0">
-            <div class="col-md-4 w-10" style="width:10%">
-                <img th:src="${movie.poster}" class="img-fluid rounded-start" alt="...">
-            </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${movie.title}">Title</h5>
-                    <p class="card-text text-truncate" th:text="${movie.overview}">Overview</p>
-                    <a sec:authorize="hasAuthority('CUSTOMER')" class="btn btn-primary" th:href="@{/movies/{id}(id=${movie.id})}">Book</a>
-                    <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-primary" th:href="@{/movies/{id}(id=${movie.id})}">Edit</a>
+                    <h5 class="card-title" th:text="${user.getUsername()}">Username</h5>
+                    <p class="card-text text-truncate" th:text="${user.getAuthorities()}">Overview</p>
+                    <p sec:authorize="hasAuthority('ADMIN')">
+                        <a th:if="${not user.isAdmin()}" class="btn btn-primary" th:href="@{/users/makeadmin/{id}(id=${user.id})}">Make Admin</a>
+                        <a th:if="${user.isAdmin()}" class="btn btn-primary" th:href="@{/users/removeadmin/{id}(id=${user.id})}">Remove Admin</a>
+                        <a th:if="${not user.isAdmin()}" class="btn btn-primary" th:href="@{/users/deleteuser/{id}(id=${user.id})}">Delete User</a>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-    <div th:if="${movies.empty}">
+    <div th:if="${users.empty}">
         No Movies Available
     </div>
 </div>

@@ -5,8 +5,6 @@ public class Paths {
     public static final String fullPath = "";
     public class Users {
         public static final String Base = "/users";
-        public static final String GetOnePathVariable = "username";
-        public static final String GetOne = "{" + GetOnePathVariable + "}";
     }
     public class Profile {
         public static final String Base = "/profile";

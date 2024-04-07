@@ -4,6 +4,10 @@ spring:
       user: praakhya
       password: project123
       uri: mongodb+srv://praakhya:project123@cluster0.4dyf8jd.mongodb.net/chaplin_cinema
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
 application:
   security:
