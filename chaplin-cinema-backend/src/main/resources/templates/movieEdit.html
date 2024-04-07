@@ -75,8 +75,17 @@
                 </div>
                 <input type="number" class="form-control" id="imdbrating" th:value="${movie.imdb.rating}" th:field="*{imdb.rating}">
             </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">Poster</div>
+                </div>
+                <input type="text" class="form-control" id="poster" th:value="${movie.poster}" th:field="*{poster}">
+            </div>
         </div>
         <input type="submit" class="btn btn-outline-success">
+    </form>
+    <form th:action="@{/movies/{id}(id=${movie.id})}" th:method="delete" _method=DELETE>
+        <input type="submit" class="btn btn-danger" value="Delete Movie">
     </form>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

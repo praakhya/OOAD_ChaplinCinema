@@ -52,4 +52,9 @@ public class UsersEndpoint {
         userService.delete(username);
         return "users";
     }
+    @RequestMapping("/search")
+    public String getUsersBySubstr(Model model, @RequestParam("substr") String substr) {
+        model.addAttribute("users",userService.searchUserBySubstr(substr));
+        return "users";
+    }
 }

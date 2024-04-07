@@ -5,6 +5,7 @@ import com.pes.chaplincinemabackend.auth.entities.User;
 import com.pes.chaplincinemabackend.common.exceptions.EntityAlreadyExistsException;
 import com.pes.chaplincinemabackend.common.exceptions.ExceptionMessage;
 import com.pes.chaplincinemabackend.auth.repositiories.UserRepository;
+import com.pes.chaplincinemabackend.entities.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -66,5 +67,8 @@ public class UserService {
         User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(id.toString()));
         user.getGrantedAuthorities().remove(Role.ADMIN);
         userRepository.save(user);
+    }
+    public List<User> searchUserBySubstr(String phrase) {
+        return userRepository.searchUserBySubstring(phrase);
     }
 }

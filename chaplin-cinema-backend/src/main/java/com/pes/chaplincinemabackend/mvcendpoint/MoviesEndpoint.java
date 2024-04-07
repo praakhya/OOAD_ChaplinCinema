@@ -4,17 +4,16 @@ import com.pes.chaplincinemabackend.common.exceptions.EntityDoesNotExistExceptio
 import com.pes.chaplincinemabackend.common.exceptions.ExceptionMessage;
 import com.pes.chaplincinemabackend.common.utils.Paths;
 import com.pes.chaplincinemabackend.entities.Customer;
+import com.pes.chaplincinemabackend.entities.Genre;
 import com.pes.chaplincinemabackend.entities.Movie;
 import com.pes.chaplincinemabackend.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping(Paths.Movies.Base)
@@ -31,10 +30,21 @@ public class MoviesEndpoint {
         model.addAttribute("movie",movieService.findByID(id));
         return "movie";
     }
+    @RequestMapping(value="/{id}",method=RequestMethod.DELETE)
+    public String deleteMovieByID(Model model, @PathVariable("id") String id) {
+        Movie movie = movieService.findByID(id);
+        movieService.deleteMovie(movie);
+        return "movies";
+    }
     @RequestMapping("/edit/{id}")
     public String getMovieByIDForEdit(Model model, @PathVariable("id") String id) {
         model.addAttribute("movie",movieService.findByID(id));
         return "movieEdit";
+    }
+    @RequestMapping("/add")
+    public String addMoviePage(Model model) {
+        model.addAttribute("movie",new Movie());
+        return "movieAdd";
     }
     @RequestMapping("/edit")
     public String editMovie(@ModelAttribute Movie movie,
@@ -47,8 +57,17 @@ public class MoviesEndpoint {
         storedMovie.setDirectors(movie.getDirectors());
         storedMovie.setWriters(movie.getWriters());
         storedMovie.setImdb(movie.getImdb());
+        storedMovie.setPoster(movie.getPoster());
         storedMovie = movieService.update(storedMovie).get();
         model.addAttribute("movie", movieService.update(storedMovie).get());
+        return "movie";
+    }
+    @RequestMapping(value="/add", method= RequestMethod.POST)
+    public String addMovie(
+            @ModelAttribute Movie movie,
+            Model model) {
+        System.out.println("POSTING NEW MOVIE"+movie);
+        movieService.save(movie);
         return "movie";
     }
     @RequestMapping("/search")

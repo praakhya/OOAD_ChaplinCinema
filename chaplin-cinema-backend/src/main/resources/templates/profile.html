@@ -52,50 +52,44 @@
             </div>
         </div>
         <div class="col-auto" sec:authorize="hasAuthority('ADMIN')">
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#movieoffcanvasExample" aria-controls="movieoffcanvasExample">
-                Modify movies in database
-            </button>
 
-
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="movieoffcanvasExample" aria-labelledby="movieoffcanvasExampleLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="movieoffcanvasExampleLabel">Movie Database</h5>
-                    <button type="button" class="btn-close" data-bs-toggle="offcanvas" data-bs-target="#movieoffcanvasExample" data-bs-dismiss="movieoffcanvas" aria-label="Close"></button>
+            <div class="card m-5 p-5 w-100">
+                <h3 class="card-title">
+                    Modify movies in database
+                </h3>
+                <div class="card-subtitle">
+                    Search for movies to modify...
                 </div>
-                <div class="offcanvas-body">
-                    <div>
-                        Search for movies to modify...
-                    </div>
-                    <form class="row g-3 align-items-center justify-content-center" th:action="@{/movies/search}" method="get" role="search">
-                        <label for="substr" class="col-auto">Search a movie</label>
-                        <input type="text" id="substr" class="col-auto" aria-describedby="searchHelp" th:name="substr">
+                <form class="card-body row g-3 align-items-center justify-content-center" th:action="@{/movies/search}" method="get" role="search">
+                    <label for="substr" class="col-auto">Search a movie</label>
+                    <input type="text" id="substr" class="col-auto" aria-describedby="searchHelp" th:name="substr">
+                    <div class="btn-group" role="group" aria-label="Basic outlined example">
                         <input class="btn btn-outline-success" type="submit" id="searchHelp">
-                    </form>
-                    <button data-bs-toggle="offcanvas" data-bs-target="#movieoffcanvasExample" class="btn btn-outline-secondary">Clear Search</button>
-                </div>
+                        <a class="btn btn-outline-primary" th:href="@{/profile}">Clear Search</a>
+                    </div>
+                </form>
+                <a class="btn btn-outline-primary" th:href="@{/movies/add}">Add a Movie +</a>
             </div>
 
-            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#useroffcanvasExample" aria-controls="useroffcanvasExample">
-                Modify users in database
-            </button>
 
 
-            <div class="offcanvas offcanvas-start" tabindex="-1" id="useroffcanvasExample" aria-labelledby="useroffcanvasExampleLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="useroffcanvasExampleLabel">User Database</h5>
-                    <button type="button" class="btn-close" data-bs-toggle="offcanvas" data-bs-target="#useroffcanvasExample" data-bs-dismiss="useroffcanvas" aria-label="Close"></button>
+            <div class="card m-5 p-5 w-100">
+                <h3 class="card-title">
+                    Modify users in database
+                </h3>
+                <div class="card-subtitle">
+                    Search for users to modify...
                 </div>
-                <div class="offcanvas-body">
-                    <div>
-                        Search for users to modify...
-                    </div>
-                    <form class="row g-3 align-items-center justify-content-center" th:action="@{/customers/search}" method="get" role="search">
-                        <label class="col-auto">Search a user</label>
-                        <input type="text" class="col-auto" th:name="substr">
+                <form class="card-body row g-3 align-items-center justify-content-center" th:action="@{/users/search}" method="get" role="search">
+                    <label class="col-auto">Search a user</label>
+                    <input type="text" class="col-auto" th:name="substr">
+
+                    <div class="btn-group" role="group" aria-label="Basic outlined example">
                         <input class="btn btn-outline-success" type="submit">
-                    </form>
-                    <button data-bs-toggle="offcanvas" data-bs-target="#useroffcanvasExample" class="btn btn-outline-secondary">Clear Search</button>
-                </div>
+                        <a class="btn btn-outline-primary" th:href="@{/profile}">Clear Search</a>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
