@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Theatres</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles */
+        .card {
+            margin-bottom: 20px;
+        }
+        /* Maintain consistent height for images */
+        .card-img-top {
+            height: 200px; /* Adjust the height as needed */
+            object-fit: cover; /* Maintain aspect ratio and crop if necessary */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="py-4">Theatres</h2>
+    <a th:href="@{/theatres/add}" class="btn btn-primary">Add Theatres</a>
+    <div class="row">
+        <!-- Loop through theatres using Thymeleaf -->
+        <div class="col-md-4 mb-4" th:each="theatre : ${theatres}">
+            <div class="card">
+                <img th:src="${theatre.imageUrl}" class="card-img-top" alt="Theatre Image">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${theatre.name}">Theatre Name</h5>
+                    <p class="card-text" th:text="${theatre.address}">Address</p>
+                    <!-- Buttons for actions -->
+                    <a th:href="@{/theatres/withShows/{id}(id=${theatre._id})}" class="btn btn-primary">View</a>
+                    <a th:href="@{/theatres/edit/{id}(id=${theatre._id})}" class="btn btn-outline-warning">Edit</a>
+                    <a th:href="@{theatres/delete/{id}(id=${theatre._id})}" class="btn btn-outline-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

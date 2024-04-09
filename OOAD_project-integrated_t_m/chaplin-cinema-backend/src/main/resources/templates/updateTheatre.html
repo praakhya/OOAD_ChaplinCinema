@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Theatre</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-header">
+            <h1>Update Theatre</h1>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/theatres/edit/{id}(id=${theatre._id})}" th:object="${theatre}" method="post">
+                <input type="hidden" name="_method" value="post">
+
+                <div class="form-group">
+                    <label for="name">Theatre Name</label>
+                    <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Enter Updated Theatre Name">
+                </div>
+                <div class="form-group">
+                    <label for="address">Theatre Address</label>
+                    <input type="text" th:field="*{address}" class="form-control" id="address" placeholder="Enter Updated Address">
+                </div>
+                <div class="form-group">
+                    <label for="imageUrl">Image URL</label>
+                    <input type="text" th:field="*{imageUrl}" class="form-control" id="imageUrl" placeholder="Enter Updated Image URL">
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a th:href="@{/theatres}" class="btn btn-outline-danger">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

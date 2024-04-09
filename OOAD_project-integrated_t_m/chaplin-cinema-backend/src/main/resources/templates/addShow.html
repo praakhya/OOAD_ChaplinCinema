@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Shows</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Add Shows</h1>
+    <form th:action="@{'/shows/addshows/' + ${theatre._id} }" method="post">
+        <!-- Movie Title Dropdown -->
+        <div class="form-group">
+            <label for="movieTitle">Movie Title:</label>
+            <select class="form-control" id="movieTitle" name="movieId">
+                <option th:each="movie : ${movies}" th:value="${movie.id}"th:text="${movie.title}"></option>
+            </select>
+        </div>
+        <!-- Date Input -->
+        <div class="form-group">
+            <label for="date">Date:</label>
+            <input type="date" class="form-control" id="date" name="date" placeholder="Enter date (dd-mm-yyyy)">
+        </div>
+        <!-- Timings Dropdown -->
+        <div class="form-group">
+            <label for="timing">Timings:</label>
+            <select class="form-control" id="timing" name="timing">
+                <option th:each="time : ${screeningTimes}" th:value="${time}" th:text="${time.description}"></option>
+            </select>
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select class="form-control" id="category" name="category">
+                <option value="AUDI1">AUDI1</option>
+                <option value="AUDI2">AUDI2</option>
+                <option value="AUDI3">AUDI3</option>
+            </select>
+        </div>
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Add Show</button>
+        <a th:href="@{'/theatres/withShows/' + ${theatre._id}}" class="btn  btn-outline-danger">Cancel</a>
+
+    </form>
+
+
+</div>
+</body>
+</html>

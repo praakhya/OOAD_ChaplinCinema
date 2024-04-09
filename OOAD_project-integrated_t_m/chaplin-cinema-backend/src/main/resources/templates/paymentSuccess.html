@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Payment Success</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Payment Successful!</h4>
+                <p th:text="${message}"></p>
+                <a class="btn btn-primary" th:href="@{/profile}">View Booking</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

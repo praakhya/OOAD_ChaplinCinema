@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Details</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom styles -->
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 20px;
+        }
+        .card {
+            border: none;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px 5px 0 0;
+        }
+        .card-title {
+            margin-bottom: 0;
+        }
+        .card-body {
+            display: flex;
+            align-items: flex-start; /* Align items at the start */
+            gap: 20px; /* Add gap between columns */
+        }
+        .col-left {
+            flex: 1;
+            text-align: center;
+        }
+        .col-right {
+            flex: 2;
+        }
+        .card-img {
+            width: 100%; /* Ensure image takes full width */
+
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 20px; /* Add space below image */
+        }
+        .btn-back {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Show Details</h2>
+        </div>
+        <div class="card-body">
+            <div class="col-left">
+                <!-- Show poster image -->
+                <img class="card-img" th:src="${show.poster}" alt="Show Poster">
+            </div>
+            <div class="col-right">
+                <p><strong>Title:</strong> <span th:text="${show.title}"></span></p>
+                <p><strong>Date:</strong> <span th:text="${show.date}"></span></p>
+                <p><strong>Timings:</strong>
+                    <span th:switch="${#strings.toString(show.timings)}">
+                        <span th:case="'TIMING_1'">10:00 am - 1:00 pm</span>
+                        <span th:case="'TIMING_2'">1:30 pm - 4:00 pm</span>
+                        <span th:case="'TIMING_3'">4:30 pm - 8:00 pm</span>
+                        <span th:case="'TIMING_4'">8:30 pm - 12:00 am</span>
+                        <span th:case="*">[[${show.timings}]]</span> <!-- Default case -->
+                    </span>
+                </p>
+                <p><strong>Category:</strong> <span th:text="${show.category}"></span></p>
+                <p><strong>Total Seats:</strong> <span id="totalSeats"></span></p>
+                <p><strong>Seats Booked:</strong> <span id="bookedSeats"></span></p>
+                <p><strong>Seats Available:</strong> <span id="availableSeats"></span></p>
+                <a th:href="@{'/theatres/withShows/'+${show.theatreId}}" class="btn btn-primary btn-back">Back</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inline JavaScript with Thymeleaf namespace bound -->
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    /* Calculate Total Seats */
+    function getTotalSeats(show) {
+        if (show && show.seatMap) {
+            var totalSeats = 0;
+            show.seatMap.forEach(row => {
+                totalSeats += row.length;
+            });
+            return totalSeats;
+        }
+        return 0;
+    }
+
+    /* Calculate Booked Seats */
+    function getBookedSeats(show) {
+        if (show && show.seatMap) {
+            var bookedSeats = 0;
+            show.seatMap.forEach(row => {
+                row.forEach(seat => {
+                    if (seat.booked) {
+                        bookedSeats++;
+                    }
+                });
+            });
+            return bookedSeats;
+        }
+        return 0;
+    }
+
+    /* Calculate Available Seats */
+    function getAvailableSeats(show) {
+        var totalSeats = getTotalSeats(show);
+        var bookedSeats = getBookedSeats(show);
+        return totalSeats - bookedSeats;
+    }
+
+    // Fetch show object from Thymeleaf model
+    var showObj = /*[[${show}]]*/ null;
+
+    // Update seat details on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        if (showObj) {
+            document.getElementById('totalSeats').innerText = getTotalSeats(showObj);
+            document.getElementById('bookedSeats').innerText = getBookedSeats(showObj);
+            document.getElementById('availableSeats').innerText = getAvailableSeats(showObj);
+        }
+    });
+    /*]]>*/
+</script>
+</body>
+</html>
