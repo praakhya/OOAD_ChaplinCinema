@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Theatres</title>
@@ -18,6 +18,12 @@
     </style>
 </head>
 <body>
+<div class="navbar bg-body-tertiary">
+    <h5>Chaplin Cinema</h5>
+    <div>
+        <a class="btn btn-primary" th:href="@{/index}">Home</a>
+    </div>
+</div>
 <div class="container">
     <h2 class="py-4">Theatres</h2>
     <a th:href="@{/theatres/add}" class="btn btn-primary">Add Theatres</a>

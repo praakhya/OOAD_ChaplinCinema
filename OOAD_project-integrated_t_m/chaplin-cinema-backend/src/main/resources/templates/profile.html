@@ -25,6 +25,7 @@
                     <h4>
                         @<span th:text="${user.getUsername()}"></span>
                     </h4>
+                    <div class="d-flex flex-row"><span th:each="role: ${user.getGrantedAuthorities()}" class="badge rounded-pill text-bg-info" th:text="${role}"></span></div>
                 </div>
                 <div class="card-body">
                     <img th:src="${user.getProfilePictureURL()}" class="rounded-circle w-100" alt="...">

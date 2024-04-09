@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -63,6 +63,16 @@
     </style>
 </head>
 <body>
+<div class="navbar bg-body-tertiary">
+    <h5>Chaplin Cinema</h5>
+    <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+        <input type="submit" value="Log Out" class="btn btn-primary"/>
+    </form>
+    <div>
+        <a class="btn btn-primary" sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a>
+        <a class="btn btn-primary" th:href="@{/index}">Home</a>
+    </div>
+</div>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
