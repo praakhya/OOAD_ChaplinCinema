@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <style>
+        .body {
+        background-image: url("/images/error-background.jpg");
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        color:white;
+        font-size:2em;
+    </style>
+</head>
+<body class="body">
+<div class="container" >
+    <h1>An error has occurred...</h1>
+    <img th:src="@{/images/error-icon.jpg}" width="100px" />
+    <p>There seems to be a problem with the page you requested
+        (<span th:text="${path}"></span>).</p>
+    <p th:text="${'The status code is ' + status
+       + ', which means that the page was ' + error + '.'}"></p>
+    <p th:text="${'Further details: ' + message + '.'}"></p>
+    <a class="btn" href="/">Back to home</a>
+</div>
+</body>
+</html>

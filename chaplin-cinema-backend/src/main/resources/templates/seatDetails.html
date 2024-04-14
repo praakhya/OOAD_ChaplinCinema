@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Seat Details</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .seat {
+            width: 40px; /* Increased width */
+            height: 40px; /* Increased height */
+            margin: 5px;
+            display: inline-block;
+            text-align: center;
+            line-height: 40px; /* Adjusted line height to vertically center text */
+            border: 1px solid #ccc;
+            border-radius: 5px; /* Added border radius */
+            cursor: pointer;
+        }
+
+        .booked {
+            background-color: grey;
+        }
+
+        .available {
+            background-color: white;
+            border: 1px solid green;
+        }
+
+        .selected {
+            background-color: #b7e892;
+        }
+
+        #selectedSeatsContainer {
+            margin-top: 20px;
+        }
+
+
+        .screen {
+            height: 50px;
+            width: 500px;
+            margin: 20px 0; /* Increased margin to add space between seats and screen */
+            background-color: lightblue;
+            color: darkblue;
+            text-align: center;
+            line-height: 50px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+        }
+
+        .booking-btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+
+        .booking-btn:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="screen">Screen This Way</div>
+
+<div id="seatContainer">
+    <div th:each="row : ${seatMap}">
+        <div th:each="seat : ${row}" th:id="${'seat_' + seat.rowId + '_' + seat.columnId}"
+             th:class="${'seat ' + (seat.booked ? 'booked' : 'available')}"
+             th:onclick="'toggleSeat(\'' + ${seat.rowId} + '\', \'' + ${seat.columnId} + '\')'">
+            <span th:text="${seat.rowName + seat.columnName}"></span>
+        </div>
+    </div>
+</div>
+
+<form id="bookingForm" action="/shows/bookMyShow" method="post">
+    <input type="submit" class="booking-btn" value="Book Selected Seats"/>
+</form>
+
+<div id="selectedSeatsContainer"></div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    function toggleSeat(rowId, columnId) {
+        var seatId = 'seat_' + rowId + '_' + columnId;
+        var seatElement = document.getElementById(seatId);
+        if (seatElement.classList.contains('booked')) {
+            alert('This seat is already booked.');
+        } else {
+            seatElement.classList.toggle('selected');
+            updateSelectedSeats();
+        }
+    }
+
+    function updateSelectedSeats() {
+        var selectedSeats = [];
+        var selectedSeatElements = document.getElementsByClassName('selected');
+        for (var i = 0; i < selectedSeatElements.length; i++) {
+            var seat = selectedSeatElements[i];
+            var seatIdParts = seat.id.split('_');
+            var rowName = String.fromCharCode(65 + parseInt(seatIdParts[1]) - 1); // Convert rowId to corresponding character
+            var columnName = parseInt(seatIdParts[2]);
+            selectedSeats.push(rowName + columnName);
+        }
+        document.getElementById('selectedSeats').value = selectedSeats.join(',');
+        document.getElementById('selectedSeatsContainer').innerText = 'Selected Seats: ' + selectedSeats.join(', ');
+        document.getElementById('selectedSeatsContainer').innerText += '\nNumber of Seats: ' + selectedSeats.length;
+    }
+
+    document.getElementById('bookingForm').onsubmit = function() {
+        var selectedSeats = document.getElementsByClassName('selected');
+        var seatList = [];
+        for (var i = 0; i < selectedSeats.length; i++) {
+            var seatIdParts = selectedSeats[i].id.split('_');
+            var rowName = String.fromCharCode(65 + parseInt(seatIdParts[1]) - 1); // Convert rowId to corresponding character
+            var columnName = parseInt(seatIdParts[2]);
+            seatList.push(rowName + columnName);
+        }
+        var urlParams = new URLSearchParams(window.location.search);
+        var showId = urlParams.get('showId');
+        var actionUrl = '/shows/bookMyShow?showId=' + encodeURIComponent(showId) + '&selectedSeats=' + encodeURIComponent(seatList.join(','));
+        this.action = actionUrl;
+    };
+
+    /*]]>*/
+</script>
+
+</body>
+</html>

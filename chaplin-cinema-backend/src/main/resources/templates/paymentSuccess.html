@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Payment Success</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .container {
+            width: 35em; /* Increased width for better spacing */
+            margin: 3em auto;
+            color: #fff;
+            font-family: sans-serif;
+        }
+
+        .card {
+            background: linear-gradient(to bottom,
+                        #3dcee8 00%,
+                        #3dcee8 26%,
+                        #ecedef 26%,
+                        #ecedef 100%);
+            height: 18em; /* Increased height for both cards */
+            float: left;
+            padding: 1em;
+            margin-top: 100px;
+            margin-bottom: 5px;
+            position: relative;
+        }
+
+        .card-left {
+            border-radius: 8px; /* Applying border-radius to the entire left card */
+            width: 20em; /* Increased width for the left card */
+        }
+
+        .card-right {
+            border-left: 0.18em dashed #fff;
+            border-radius: 8px; /* Applying border-radius to the entire right card */
+            width: 13em; /* Increased width for the right card */
+            position: relative; /* Set position to relative */
+        }
+
+        .card-right::before,
+        .card-right::after {
+            content: "";
+            position: absolute;
+            display: block;
+            width: 0.9em;
+            height: 0.9em;
+            background: #fff;
+            border-radius: 50%;
+            left: -0.5em;
+        }
+
+        .card-right::before {
+            top: -0.4em;
+        }
+
+        .card-right::after {
+            bottom: -0.4em;
+        }
+
+        h1 {
+            font-size: 1.1em;
+            margin-top: 0;
+        }
+
+        h1 span {
+            font-weight: normal;
+            display: block; /* Making the span a block element to move it above */
+            margin-top: -0.5em; /* Adjusting the margin for better alignment */
+            margin-bottom: 1.5em; /* Pushing the movie name lower */
+        }
+
+        .title,
+        .name,
+        .seat,
+        .time {
+            text-transform: uppercase;
+            font-weight: normal;
+            margin-top: 1em; /* Adding some space between elements */
+            margin-bottom: 0.5em; /* Pushing content down */
+        }
+
+        .title h2,
+        .name h2,
+        .seat h2,
+        .time h2 {
+            font-size: 0.9em;
+            color: #525252;
+            margin: 0;
+        }
+
+        .title span,
+        .name span,
+        .seat span,
+        .time span {
+            font-size: 0.7em;
+            color: #a2aeae;
+        }
+
+        .name,
+        .seat {
+            margin-top: 0; /* Adjusting the margin to remove extra space */
+        }
+
+        .time {
+            margin-top: 0; /* Resetting the margin-top */
+            margin-bottom: 1em; /* Pushing timing down */
+            float: right; /* Removed bottom and left adjustments */
+        }
+
+        .seat,
+        .time {
+            display: inline-block; /* Displaying side by side */
+            margin-top: 0.5em; /* Adjusting the margin-top */
+            margin-bottom: 0; /* Resetting the margin-bottom */
+        }
+
+        .eye {
+            position: relative;
+            width: 2em;
+            height: 1.5em;
+            background: #fff;
+            margin: 0 auto;
+            border-radius: 1em/0.6em;
+            z-index: 1;
+        }
+
+        .eye::before,
+        .eye::after {
+            content: "";
+            display: block;
+            position: absolute;
+            border-radius: 50%;
+        }
+
+        .number {
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .number h3 {
+            color: #3dcee8;
+            margin: 0.9em 0 0 0;
+            font-size: 2.5em;
+        }
+
+        .number span {
+            display: block;
+            color: #a2aeae;
+        }
+
+        .barcode {
+            height: 2em;
+            width: 0;
+            margin: 1.3em 0 0 0.8em;
+            box-shadow: 5px 0 0 1px #343434, 10px 0 0 1px #343434, 11px 0 0 1px #343434, 15px 0 0 1px #343434,
+                        18px 0 0 1px #343434, 22px 0 0 1px #343434, 23px 0 0 1px #343434, 26px 0 0 1px #343434,
+                        30px 0 0 1px #343434, 35px 0 0 1px #343434, 37px 0 0 1px #343434, 41px 0 0 1px #343434,
+                        44px 0 0 1px #343434, 47px 0 0 1px #343434, 51px 0 0 1px #343434, 56px 0 0 1px #343434,
+                        59px 0 0 1px #343434, 64px 0 0 1px #343434, 68px 0 0 1px #343434, 72px 0 0 1px #343434,
+                        74px 0 0 1px #343434, 77px 0 0 1px #343434, 81px 0 0 1px #343434;
+
+            position: absolute; /* Set position to absolute */
+            bottom: 25px; /* Align to the bottom */
+            left: 50px; /* Align to the left */
+        }
+            .bottom-button-container {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            background-color: #f0f0f0;
+            padding: 20px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading" style="font-family: Arial, sans-serif;">Payment Successful!</h4>
+                <p th:text="${message}"></p>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card card-left">
+            <h1><span>Chaplin Cinema</span></h1>
+            <div class="title">
+                <h2 th:text="${bookingDetails.movieName}">HELLO</h2>
+                <span>Movie</span>
+            </div>
+            <div class="name">
+                <h2 th:text="${bookingDetails.theaterName}">HELLP</h2>
+                <span>Theatre</span>
+            </div>
+            <div class="seat">
+                <h2 th:text="${bookingDetails.selectedSeat}">[jjf]</h2>
+                <span>Seats</span>
+            </div>
+            <div class="time">
+                <h2 th:text="${bookingDetails.timing}">HELkf</h2>
+                <span>Timing</span>
+            </div>
+        </div>
+
+        <div class="card card-right">
+            <div class="eye"></div>
+            <div class="number">
+                <h3 th:text="${bookingDetails.numTickets}">5</h3>
+                <span>Tickets</span>
+            </div>
+            <div class="barcode"></div>
+        </div>
+    </div>
+
+</div>
+<div class="bottom-button-container">
+    <a href="http://localhost:8080/movies" class="btn btn-primary">Explore More Movies</a>
+</div>
+</body>
+</html>

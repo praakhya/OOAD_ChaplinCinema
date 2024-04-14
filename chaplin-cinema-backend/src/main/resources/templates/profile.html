@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+</head>
+<body>
+<div class="navbar bg-body-tertiary">
+    <h5>Chaplin Cinema</h5>
+    <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+        <input type="submit" value="Log Out" class="btn btn-primary"/>
+    </form>
+    <div>
+        <a class="btn btn-primary" sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a>
+        <a class="btn btn-primary" th:href="@{/movies}">Browse Movies</a>
+    </div>
+</div>
+    <div class="row m-5">
+        <div class="col-auto w-25">
+            <div class="card p-3">
+                <div class="card-title">
+                    <h3>Welcome</h3>
+                    <h4>
+                        @<span th:text="${user.getUsername()}"></span>
+                    </h4>
+                    <div class="d-flex flex-row"><span th:each="role: ${user.getGrantedAuthorities()}" class="badge rounded-pill text-bg-info" th:text="${role}"></span></div>
+                </div>
+                <div class="card-body">
+                    <img th:src="${user.getProfilePictureURL()}" class="rounded-circle w-100" alt="...">
+                </div>
+                <div class="list-group list-group-flush" sec:authorize="hasAuthority('CUSTOMER')">
+                    <div class="list-group-item">
+                        First name: <span th:text="${user.getFirstName()}"></span>
+                    </div>
+                    <div class="list-group-item">
+                        Last name: <span th:text="${user.getLastName()}"></span>
+                    </div>
+                </div>
+                <a class="btn btn-outline-primary" th:href="@{/profile/edit}">Edit profile</a>
+            </div>
+        </div>
+        <div class="col-auto w-75" sec:authorize="hasAuthority('CUSTOMER')">
+            <div>
+                <h3>Booked Movies</h3>
+                <div class="d-flex flex-column gap-3 m-auto" th:if="!${bookings.empty}">
+                    <div class="card p-3 m-auto w-75" th:each="booking: ${bookings}">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${booking.getMovieName()}"></h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary" >Booking Id <span th:text="${booking.getBookingId()}"></span></h6>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">Show Id <span th:text="${booking.getShowId()}"></span></h6>
+                            <div>
+                                <h6>Seats</h6>
+                                <div>
+                                    <span class="badge rounded-pill text-bg-primary" th:each="seat: ${booking.getSeats()}" th:text="${seat}">Seat</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list-group" th:if="${bookings.empty}">
+                    <div class="list-group-item"> No movies booked yet. Book now!</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto" sec:authorize="hasAuthority('ADMIN')">
+
+            <div class="card m-5 p-5 w-100">
+                <h3 class="card-title">
+                    Modify movies in database
+                </h3>
+                <div class="card-subtitle">
+                    Search for movies to modify...
+                </div>
+                <form class="card-body row g-3 align-items-center justify-content-center" th:action="@{/movies/search}" method="get" role="search">
+                    <label for="substr" class="col-auto">Search a movie</label>
+                    <input type="text" id="substr" class="col-auto" aria-describedby="searchHelp" th:name="substr">
+                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <input class="btn btn-outline-success" type="submit" id="searchHelp">
+                        <a class="btn btn-outline-primary" th:href="@{/profile}">Clear Search</a>
+                    </div>
+                </form>
+                <a class="btn btn-outline-primary" th:href="@{/movies/add}">Add a Movie +</a>
+            </div>
+
+
+
+            <div class="card m-5 p-5 w-100">
+                <h3 class="card-title">
+                    Modify users in database
+                </h3>
+                <div class="card-subtitle">
+                    Search for users to modify...
+                </div>
+                <form class="card-body row g-3 align-items-center justify-content-center" th:action="@{/users/search}" method="get" role="search">
+                    <label class="col-auto">Search a user</label>
+                    <input type="text" class="col-auto" th:name="substr">
+
+                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                        <input class="btn btn-outline-success" type="submit">
+                        <a class="btn btn-outline-primary" th:href="@{/profile}">Clear Search</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+</body>
+</html>

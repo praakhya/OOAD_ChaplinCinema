@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Proceed to Payment</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+        }
+        #paymentImage {
+            width: 60%; /* Cover 60% of the screen width */
+            height: 30vh; /* Cover 30% of the screen height */
+            object-fit: contain; /* Maintain aspect ratio */
+            margin-bottom: 20px; /* Add space between image and text */
+        }
+        #bookingButton {
+            margin-top: 20px; /* Add space between image and button */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Image -->
+    <img id="paymentImage" th:src="@{/images/cat.jpeg}" alt="OK PROCEED">
+    <!-- Text -->
+    <p>The seats have been confirmed, please proceed to payment</p>
+    <!-- Button -->
+    <form action="#" method="get" th:action="@{/bookingSubmission}" id="bookingForm">
+        <input type="hidden" id="showId" name="showId" th:value="${param.showId}" />
+        <button type="button" class="btn btn-primary" id="bookingButton">Click to make movie booking</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS (optional) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script th:inline="javascript">
+    document.getElementById('bookingButton').addEventListener('click', function() {
+        var showId = document.getElementById('showId').value;
+        if (showId) {
+            var bookingUrl = '/shows/bookingSubmission?showId=' + encodeURIComponent(showId);
+            window.location.href = bookingUrl;
+        } else {
+            alert('Show ID is missing.');
+        }
+    });
+</script>
+</body>
+</html>

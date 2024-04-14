@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>My Spring Booty</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .total-payable {
+            background-color: #ffff99; /* Light yellow background */
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <!-- Image card -->
+        <div class="col-md-4">
+            <div class="card bg-light text-white" style="height: 40%;">
+                <img class="card-img" th:src="@{/images/summary.png}" alt="Card image">
+            </div>
+        </div>
+
+        <!-- Entry card -->
+        <div class="col-md-8">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <h5 class="card-title">BOOKING SUMMARY</h5>
+                    <p class="card-text"></p>
+                </div>
+
+                <div th:if="${bookingDetails}">
+                    <table class="table">
+                        <tbody>
+                        <tr th:each="entry : ${bookingDetails.entrySet()}">
+                            <th scope="row" th:text="${entry.key}"></th>
+                            <td th:text="${entry.value}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="card-body">
+                    <!-- Pay Now button -->
+                    <button id="payNowButton" class="btn btn-light text-danger">Pay Now</button>
+                    <form id="paymentForm" action="http://localhost:8080/api/v1/payment/success" method="post">
+                        <input type="hidden" name="showId" th:value="${bookingDetails.showId}">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.getElementById('payNowButton').addEventListener('click', function(event) {
+        // Prevent the default action of the button click
+        event.preventDefault();
+
+        // Submit the form programmatically
+        document.getElementById('paymentForm').submit();
+    });
+</script>
+
+</body>
+
+</html>
