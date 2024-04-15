@@ -35,9 +35,7 @@ public class Theatre {
     //private List<TheaterSeat> theaterSeatList = new ArrayList<>();
 
 
-    public void allocateShowToTiming(ScreeningTime timing, String showId) {
-        showTimings.put(timing, showId);
-    }
+
     public String getShowForTiming(ScreeningTime timing) {
         return showTimings.get(timing);
     }
@@ -55,4 +53,66 @@ public class Theatre {
     private List<Shows> showsDetails;  // Add this field to store details of shows
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void allocateShowToTiming(ScreeningTime timing, String showId) {
+        showTimings.put(timing, showId);
+    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
