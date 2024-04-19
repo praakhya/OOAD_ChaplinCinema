@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -60,8 +61,17 @@
         tbody tr:nth-child(even) {
             background-color: #f2f2f2;
         }
+        /* Gradient blue background for Shows section */
+        .shows-section {
+            background: linear-gradient(to right, #0575e6, #021b79); /* Gradient from blue to dark blue */
+            color: #fff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
+
 <body>
 <div class="navbar bg-body-tertiary">
     <h5>Chaplin Cinema</h5>
@@ -69,7 +79,10 @@
         <input type="submit" value="Log Out" class="btn btn-primary"/>
     </form>
     <div>
+        <a th:href="@{/theatres}" class="btn btn-outline-danger">Back</a>
         <a class="btn btn-primary" sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a>
+
+        <a th:href="@{/shows/addshows/{id}(id=${theatre._id})}" class="btn btn-primary">Add Show</a>
         <a class="btn btn-primary" th:href="@{/index}">Home</a>
     </div>
 </div>
@@ -77,15 +90,14 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <a th:href="@{/theatres}" class="btn btn-outline-danger">Back</a>
-                <a th:href="@{/shows/addshows/{id}(id=${theatre._id})}" class="btn btn-primary">Add Show</a>
+
             </div>
         </div>
     </div>
     <div class="row">
         <!-- Theatre card -->
         <div class="col-md-4">
-            <div class="card">
+            <div class="card shadow">
                 <img th:src="${theatre.imageUrl}" class="card-img-top" alt="Theatre Image" width="200" height="200">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${theatre.name}"></h5>
@@ -95,9 +107,11 @@
         </div>
         <!-- Shows table -->
         <div class="col-md-8">
-            <h3>Shows</h3>
+            <div class="shows-section">
+                <h3>Shows</h3>
+            </div>
             <div class="table-container">
-                <table class="table">
+                <table class="table shadow">
                     <thead class="thead-dark">
                     <tr>
                         <th>Title</th>
@@ -148,4 +162,5 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

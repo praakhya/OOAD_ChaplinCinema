@@ -25,18 +25,15 @@ public class CustomerService {
 
     public Optional<Customer> findByUsername(String username) {
         Customer customer = customerRepository.findCustomerByUsername(username).orElseThrow(()->new UsernameNotFoundException(username));
-        customer.setPassword(null);
         return Optional.of(customer);
     }
     public List<Customer> findByFirstname(String firstName) {
         List<Customer> users = customerRepository.findCustomersByFirstname(firstName);
-        users.forEach(u -> u.setPassword(null));
         return users;
     }
 
     public List<Customer> findByLastname(String lastName) {
         List<Customer> users = customerRepository.findCustomersByLastname(lastName);
-        users.forEach(u -> u.setPassword(null));
         return users;
     }
     public Optional<Customer> findByID(UUID id) {
@@ -45,7 +42,6 @@ public class CustomerService {
     }
     public List<Customer> findAll() {
         List<Customer> users = customerRepository.findAll();
-        users.forEach(u -> u.setPassword(null));
         return users;
     }
 

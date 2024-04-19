@@ -27,7 +27,7 @@ public class IdentitySecurityConfig {
                                         "/js/**",
                                         "/images/**"
                                 ).permitAll() //.permitAll() means that these requests don't require authentication, they are permitted
-                                .requestMatchers("/", "/home", "/movies/**", "/customers/**", "/signup/**","/shows/**","/shows/bookMyShow","/shows/bookingSubmission","/shows/seatDetails","/payment/success","/theatres/**","/shows").permitAll()
+                                .requestMatchers("/", "/home", "/movies/**", "/customers/**", "/signup/**","/shows/**","/shows/bookMyShow","/shows/bookingSubmission","/shows/seatDetails","api/v1/payment/success","/theatres/**","/shows","api/v1/bookings").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form

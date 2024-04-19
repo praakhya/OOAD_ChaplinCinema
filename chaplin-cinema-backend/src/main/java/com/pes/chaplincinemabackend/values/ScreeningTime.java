@@ -19,4 +19,14 @@ public enum ScreeningTime {
         this.description = description;
     }
 
+
+    public static String getDescriptionByValue(String value) {
+        for (ScreeningTime time : values()) {
+            if (time.name().equals(value)) {
+                return time.getDescription();
+            }
+        }
+        return null; // Handle case when value is not found
+    }
+
 }
