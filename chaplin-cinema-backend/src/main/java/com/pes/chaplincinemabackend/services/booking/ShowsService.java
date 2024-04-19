@@ -177,7 +177,6 @@ public class ShowsService {
     }
 
 
-
     public Map<String, Object> getTemporaryBookingDetails(String _id) {
         Map<String, Object> bookingDetails = temporaryBookingData.get(_id);
         Shows show = showsRepository.findShowBy_id(_id);
@@ -185,6 +184,7 @@ public class ShowsService {
             // Extract movie name and theater name
             String movieName = show.getTitle();
             String theatreName = getTheatreNameForShow(_id);
+            String Timings = show.getTimingDescription();
             // Calculate total payable amount (18% of total price)
             int totalPrice = (int) bookingDetails.get("totalPrice");
             double totalPayableAmount = totalPrice * 1.18;
@@ -193,12 +193,14 @@ public class ShowsService {
             // Add movie name, theater name, and total payable amount to bookingDetails map
             bookingDetails.put("movieName", movieName);
             bookingDetails.put("theaterName", theatreName);
+            bookingDetails.put("timing", Timings );
             bookingDetails.put("totalPayableAmount", totalPayableAmount);
             System.out.println(bookingDetails);
         }
 
         return bookingDetails;
     }
+
 
 
     public Map<Theatre, List<Shows>> showByMovieIdAndDate(String movieId, String date) {
@@ -250,6 +252,28 @@ public class ShowsService {
         return theatreName;
     }
 
+    public Shows freeSelectedSeats(String _id, List<String> seats) {
+        Shows show = showsRepository.findShowBy_id(_id);
+        ArrayList<ArrayList<SeatMap>> seatMap = show.getSeatMap();
+
+        for (String seat : seats) {
+            String rowName = seat.substring(0, 1);
+            String columnName = seat.substring(1);
+
+            for (ArrayList<SeatMap> row : seatMap) {
+                for (SeatMap seatInfo : row) {
+                    if (rowName.equals(seatInfo.getRowName()) && columnName.equals(seatInfo.getColumnName())) {
+                        seatInfo.setBooked(false); // Free the selected seat
+                    }
+                }
+            }
+        }
+
+        // Save the changes to the database
+        showsRepository.save(show);
+
+        return show;
+    }
 
 }
 

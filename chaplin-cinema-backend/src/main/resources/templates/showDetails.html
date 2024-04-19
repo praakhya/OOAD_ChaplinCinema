@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,74 +13,100 @@
             background-color: #f8f9fa;
             padding-top: 20px;
         }
+
         .card {
             border: none;
             box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
         }
+
+        /* Gradient blue background for card header */
         .card-header {
-            background-color: #007bff;
+            background: linear-gradient(to right, #0575e6, #021b79); /* Gradient from blue to dark blue */
             color: #fff;
             border-radius: 5px 5px 0 0;
         }
+
         .card-title {
             margin-bottom: 0;
         }
+
         .card-body {
             display: flex;
-            align-items: flex-start; /* Align items at the start */
-            gap: 20px; /* Add gap between columns */
+            align-items: flex-start;
+            gap: 20px;
         }
+
         .col-left {
             flex: 1;
             text-align: center;
         }
+
         .col-right {
             flex: 2;
         }
-        .card-img {
-            width: 100%; /* Ensure image takes full width */
 
+        .card-img {
+            width: 100%;
             object-fit: cover;
             border-radius: 5px;
-            margin-bottom: 20px; /* Add space below image */
+            margin-bottom: 20px;
         }
+
         .btn-back {
             margin-top: 20px;
         }
+
+        /* Custom styling for text colors */
+        .text-primary {
+            color: #6c5ce7; /* Purple */
+        }
+
+        .text-success {
+            color: #00b894; /* Green */
+        }
+
+        .text-danger {
+            color: #d63031; /* Red */
+        }
     </style>
 </head>
+
 <body>
 <div class="container">
-    <div class="card">
+    <div class="card shadow">
         <div class="card-header">
             <h2 class="card-title">Show Details</h2>
         </div>
         <div class="card-body">
             <div class="col-left">
-                <!-- Show poster image -->
                 <img class="card-img" th:src="${show.poster}" alt="Show Poster">
             </div>
             <div class="col-right">
-                <p><strong>Title:</strong> <span th:text="${show.title}"></span></p>
-                <p><strong>Date:</strong> <span th:text="${show.date}"></span></p>
-                <p><strong>Timings:</strong>
+                <p><strong >Title</strong> <span th:text="${show.title}"></span></p>
+                <p><strong>Date</strong> <span th:text="${show.date}"></span></p>
+                <p><strong>Timings</strong>
                     <span th:switch="${#strings.toString(show.timings)}">
-                        <span th:case="'TIMING_1'">10:00 am - 1:00 pm</span>
-                        <span th:case="'TIMING_2'">1:30 pm - 4:00 pm</span>
-                        <span th:case="'TIMING_3'">4:30 pm - 8:00 pm</span>
-                        <span th:case="'TIMING_4'">8:30 pm - 12:00 am</span>
-                        <span th:case="*">[[${show.timings}]]</span> <!-- Default case -->
-                    </span>
+                            <span th:case="'TIMING_1'">10:00 am - 1:00 pm</span>
+                            <span th:case="'TIMING_2'">1:30 pm - 4:00 pm</span>
+                            <span th:case="'TIMING_3'">4:30 pm - 8:00 pm</span>
+                            <span th:case="'TIMING_4'">8:30 pm - 12:00 am</span>
+                            <span th:case="*">[[${show.timings}]]</span>
+                        </span>
                 </p>
-                <p><strong>Category:</strong> <span th:text="${show.category}"></span></p>
-                <p><strong>Total Seats:</strong> <span id="totalSeats"></span></p>
-                <p><strong>Seats Booked:</strong> <span id="bookedSeats"></span></p>
-                <p><strong>Seats Available:</strong> <span id="availableSeats"></span></p>
+                <p><strong>Category</strong> <span th:text="${show.category}"></span></p>
+                <p><strong>Total Seats</strong> <span id="totalSeats" class="text-primary"></span></p>
+                <p><strong>Seats Booked</strong> <span id="bookedSeats" class="text-danger"></span></p>
+                <p><strong>Seats Available</strong> <span id="availableSeats" class="text-success"></span></p>
                 <a th:href="@{'/theatres/withShows/'+${show.theatreId}}" class="btn btn-primary btn-back">Back</a>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Include Bootstrap JS and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <!-- Inline JavaScript with Thymeleaf namespace bound -->
 <script th:inline="javascript">
@@ -133,4 +160,5 @@
     /*]]>*/
 </script>
 </body>
+
 </html>

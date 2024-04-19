@@ -9,16 +9,27 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
+            margin: 0;
         }
         .container {
             text-align: center;
+            padding: 20px;
         }
-        #paymentImage {
-            width: 60%; /* Cover 60% of the screen width */
-            height: 30vh; /* Cover 30% of the screen height */
-            object-fit: contain; /* Maintain aspect ratio */
-            margin-bottom: 20px; /* Add space between image and text */
+        .card {
+            height: 100%;
+            border: none; /* Remove border */
+            box-shadow: none; /* Remove box shadow */
+        }
+        .card-body {
+            padding: 20px; /* Increase padding */
+        }
+        .card-img-top {
+            max-height: 150px; /* Set maximum height for the card image */
+            object-fit: cover; /* Maintain aspect ratio */
+        }
+        .card-text {
+            margin-bottom: 0; /* Remove margin bottom for card text */
         }
         #bookingButton {
             margin-top: 20px; /* Add space between image and button */
@@ -27,10 +38,37 @@
 </head>
 <body>
 <div class="container">
-    <!-- Image -->
-    <img id="paymentImage" th:src="@{/images/cat.jpeg}" alt="OK PROCEED">
+    <h3>Thank you for using Chaplin Cinemas</h3> <!-- Added heading -->
+    <p>While your booking is being processed, take a look at our food options below:</p> <!-- Added paragraph -->
+    <!-- Cards -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" src="/images/caramel.jpeg" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Caramel Popcorn</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" src="/images/Popcorn.jpeg" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Salted Popcorn</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" src="/images/cheese.jpeg" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Cheese Popcorn</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Text -->
-    <p>The seats have been confirmed, please proceed to payment</p>
+    <p style="margin-top: 20px;">The seats have been confirmed. Please proceed to payment.</p> <!-- Increased space -->
     <!-- Button -->
     <form action="#" method="get" th:action="@{/bookingSubmission}" id="bookingForm">
         <input type="hidden" id="showId" name="showId" th:value="${param.showId}" />

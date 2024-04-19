@@ -26,6 +26,7 @@
         <input type="submit" value="Log Out" class="btn btn-primary"/>
     </form>
     <a class="btn btn-outline-primary" sec:authorize="isAuthenticated()" th:href="@{/profile}">Profile</a>
+        <a class="btn btn-outline-primary" sec:authorize="isAuthenticated()" th:href="@{api/v1/bookings}">My Bookings</a>
     </div>
 
 </div>

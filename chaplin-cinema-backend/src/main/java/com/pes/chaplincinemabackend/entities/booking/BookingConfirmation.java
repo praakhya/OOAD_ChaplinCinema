@@ -17,6 +17,8 @@ public class BookingConfirmation {
     private String bookingId;
     private String showId;
     private String movieName;
+    private String theatreName;
+    private String timing;
     private List<String> seats;
     private Integer totalPrice;
     private Double totalPayableAmount;

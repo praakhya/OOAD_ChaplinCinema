@@ -10,9 +10,12 @@ import java.util.UUID;
 @Document("user")
 @Data
 public class Customer extends User {
-    public Customer() {}
+    public Customer() {
+        Bookings = new ArrayList<>();
+    }
 
     private String firstName;
     private String lastName;
+    private ArrayList<UUID> Bookings;
 
 }

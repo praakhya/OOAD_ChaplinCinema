@@ -36,6 +36,10 @@ public class Shows {
     private String category;
     private String theatreId;
 
+    public String getTimingDescription() {
+        return ScreeningTime.getDescriptionByValue(this.timings.name());
+    }
+
     private ArrayList<ArrayList<SeatMap>> initIMAXSeatMap() {
         int numRows = 5;
         int numColumns = 5;
