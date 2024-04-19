@@ -19,11 +19,14 @@
 
     <a class="btn btn-primary" sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a>
     <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-primary d-flex flex-row" th:href="@{/users}">Manage Users</a>
+    <a sec:authorize="hasAnyAuthority('THEATRE_ADMIN')" class="btn btn-primary d-flex flex-row" th:href="@{/theatres}">Manage Theatres</a>
+
     <div class="d-flex flex-row">
     <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
         <input type="submit" value="Log Out" class="btn btn-primary"/>
     </form>
     <a class="btn btn-outline-primary" sec:authorize="isAuthenticated()" th:href="@{/profile}">Profile</a>
+        <a class="btn btn-outline-primary" sec:authorize="isAuthenticated()" th:href="@{api/v1/bookings}">My Bookings</a>
     </div>
 
 </div>
@@ -39,7 +42,7 @@
                 <div class="card-body">
                     <h5 class="card-title" th:text="${movie.title}">Title</h5>
                     <p class="card-text text-truncate" th:text="${movie.overview}">Overview</p>
-                    <a sec:authorize="hasAuthority('CUSTOMER')" class="btn btn-primary" th:href="@{/movies/{id}(id=${movie.id})}">Book</a>
+                    <a sec:authorize="!isAuthenticated() || hasAuthority('CUSTOMER')" class="btn btn-primary" th:href="@{/movies/{id}(id=${movie.id})}">Book</a>
                     <a sec:authorize="hasAuthority('ADMIN')" class="btn btn-primary" th:href="@{/movies/{id}(id=${movie.id})}">Edit</a>
                 </div>
             </div>

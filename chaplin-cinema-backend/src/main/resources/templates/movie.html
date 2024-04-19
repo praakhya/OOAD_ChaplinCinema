@@ -28,7 +28,8 @@
                 <h5 class="card-title" th:text="${movie.title}">Title</h5>
                 <p class="card-text" th:text="${movie.overview}">Overview</p>
                 <div role="alert" sec:authorize="isAuthenticated()">
-                <a class="btn btn-primary" sec:authorize="hasAuthority('CUSTOMER')">Book</a>
+                    <a class="btn btn-primary" sec:authorize="hasAuthority('CUSTOMER')"
+                       th:href="@{'/shows/display/' + ${movie.id}}">Book</a>
                 <a class="btn btn-primary" sec:authorize="hasAuthority('ADMIN')" th:href="@{/movies/edit/{id}(id=${movie.id})}">Edit</a>
                 </div>
                 <div role="alert" sec:authorize="!isAuthenticated()">

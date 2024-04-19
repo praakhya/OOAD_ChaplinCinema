@@ -6,9 +6,12 @@ import com.pes.chaplincinemabackend.common.exceptions.EntityDoesNotExistExceptio
 import com.pes.chaplincinemabackend.common.exceptions.ExceptionMessage;
 import com.pes.chaplincinemabackend.common.utils.Paths;
 import com.pes.chaplincinemabackend.entities.Customer;
+import com.pes.chaplincinemabackend.entities.booking.BookingConfirmation;
+import com.pes.chaplincinemabackend.repositories.booking.BookingConfirmationRepository;
 import com.pes.chaplincinemabackend.services.CustomerService;
 import com.pes.chaplincinemabackend.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -30,12 +34,20 @@ public class ProfileEndpoint {
     private CustomerService customerService;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private BookingConfirmationRepository bookingConfirmationRepository;
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping()
-    public String getUser(Model model, Principal principal) {
+    public String getUserDetails(Model model, Principal principal) {
         Optional<User> user = userService.findOne(principal.getName());
-        user.ifPresent(value -> model.addAttribute("user", value));
+        user.ifPresent(value -> {
+            model.addAttribute("user", value);
+            List<BookingConfirmation> bookingConfirmations = bookingConfirmationRepository.getBookingConfirmationByUsername(value.getUsername());
+            model.addAttribute("bookings",bookingConfirmations);
+        });
         return "profile";
     }
+
     @RequestMapping("/edit")
     public String editUser(Model model, Principal principal) {
         Optional<User> user = userService.findOne(principal.getName());

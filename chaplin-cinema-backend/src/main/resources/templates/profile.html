@@ -25,6 +25,7 @@
                     <h4>
                         @<span th:text="${user.getUsername()}"></span>
                     </h4>
+                    <div class="d-flex flex-row"><span th:each="role: ${user.getGrantedAuthorities()}" class="badge rounded-pill text-bg-info" th:text="${role}"></span></div>
                 </div>
                 <div class="card-body">
                     <img th:src="${user.getProfilePictureURL()}" class="rounded-circle w-100" alt="...">
@@ -40,13 +41,25 @@
                 <a class="btn btn-outline-primary" th:href="@{/profile/edit}">Edit profile</a>
             </div>
         </div>
-        <div class="col-auto" sec:authorize="hasAuthority('CUSTOMER')">
+        <div class="col-auto w-75" sec:authorize="hasAuthority('CUSTOMER')">
             <div>
                 <h3>Booked Movies</h3>
-                <div class="list-group" th:if="!${user.getBookings().empty}">
-                    <div class="list-group-item" th:each="movie: ${user.getBookings()}" th:text="${movie.title}"></div>
+                <div class="d-flex flex-column gap-3 m-auto" th:if="!${bookings.empty}">
+                    <div class="card p-3 m-auto w-75" th:each="booking: ${bookings}">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${booking.getMovieName()}"></h5>
+                            <h6 class="card-subtitle mb-2 text-body-secondary" >Booking Id <span th:text="${booking.getBookingId()}"></span></h6>
+                            <h6 class="card-subtitle mb-2 text-body-secondary">Show Id <span th:text="${booking.getShowId()}"></span></h6>
+                            <div>
+                                <h6>Seats</h6>
+                                <div>
+                                    <span class="badge rounded-pill text-bg-primary" th:each="seat: ${booking.getSeats()}" th:text="${seat}">Seat</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="list-group" th:if="${user.getBookings().empty}">
+                <div class="list-group" th:if="${bookings.empty}">
                     <div class="list-group-item"> No movies booked yet. Book now!</div>
                 </div>
             </div>

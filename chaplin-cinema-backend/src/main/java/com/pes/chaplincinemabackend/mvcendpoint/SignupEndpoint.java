@@ -35,14 +35,7 @@ public class SignupEndpoint {
     public String signup(Model model, Principal principal) {
         return "signup";
     }
-    @RequestMapping("/customer")
-    public String signupCustomer(Model model, Principal principal) {
-        return "signupCustomer";
-    }
-    @RequestMapping("/admin")
-    public String signupAdmin(Model model, Principal principal) {
-        return "signupAdmin";
-    }
+
     @RequestMapping(value="/customer", method = RequestMethod.POST)
     public String signupCustomerPost(
             @RequestParam("username") String username,
@@ -58,21 +51,6 @@ public class SignupEndpoint {
         customer.setPassword(password);
         customer.setEnabled(true);
         Customer storedCustomer = customerService.create(customer).orElseThrow(() -> new UsernameNotFoundException(username));
-        return "login";
-    }
-    @RequestMapping(value="/admin", method = RequestMethod.POST)
-    public String signupAdminPost(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password,
-            @RequestParam("role") String role,
-            Model model,
-            Principal principal) {
-
-        System.out.println("Called post on signup");
-        Admin admin = new Admin();
-        admin.setUsername(username);
-        admin.setPassword(passwordEncoder.encode(password));
-        adminService.save(admin);
         return "login";
     }
 }

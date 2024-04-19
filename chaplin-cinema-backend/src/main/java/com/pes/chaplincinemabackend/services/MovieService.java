@@ -9,9 +9,11 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.*;
 
@@ -36,6 +38,9 @@ public class MovieService {
     public Page<Movie> searchByMoviePhrase(String phrase, int page, int size) {
         return movieRepository.searchByMoviePhrase(phrase, PageRequest.of(page, size));
     }
+    public List<Movie> getAllMovies() {
+        return movieRepository.findAll();
+    }
 
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     public Optional<Movie> save(Movie movie) {
@@ -58,4 +63,10 @@ public class MovieService {
     public void deleteMovie(Movie movie) {
         movieRepository.deleteById(movie.getId());
     }
+
+    public Movie getMovieByName(String title) {
+        Optional<Movie> movieOptional = movieRepository.findByTitle(title);
+        return movieOptional.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Movie not found"));
+    }
+
 }

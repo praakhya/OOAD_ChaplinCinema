@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Proceed to Payment</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        .card {
+            height: 100%;
+            border: none; /* Remove border */
+            box-shadow: none; /* Remove box shadow */
+        }
+        .card-body {
+            padding: 20px; /* Increase padding */
+        }
+        .card-img-top {
+            max-height: 150px; /* Set maximum height for the card image */
+            object-fit: cover; /* Maintain aspect ratio */
+        }
+        .card-text {
+            margin-bottom: 0; /* Remove margin bottom for card text */
+        }
+        #bookingButton {
+            margin-top: 20px; /* Add space between image and button */
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h3>Thank you for using Chaplin Cinemas</h3> <!-- Added heading -->
+    <p>While your booking is being processed, take a look at our food options below:</p> <!-- Added paragraph -->
+    <!-- Cards -->
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" src="/images/caramel.jpeg" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Caramel Popcorn</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" src="/images/Popcorn.jpeg" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Salted Popcorn</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-img-top" src="/images/cheese.jpeg" alt="Card image cap">
+                <div class="card-body">
+                    <p class="card-text">Cheese Popcorn</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Text -->
+    <p style="margin-top: 20px;">The seats have been confirmed. Please proceed to payment.</p> <!-- Increased space -->
+    <!-- Button -->
+    <form action="#" method="get" th:action="@{/bookingSubmission}" id="bookingForm">
+        <input type="hidden" id="showId" name="showId" th:value="${param.showId}" />
+        <button type="button" class="btn btn-primary" id="bookingButton">Click to make movie booking</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS (optional) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script th:inline="javascript">
+    document.getElementById('bookingButton').addEventListener('click', function() {
+        var showId = document.getElementById('showId').value;
+        if (showId) {
+            var bookingUrl = '/shows/bookingSubmission?showId=' + encodeURIComponent(showId);
+            window.location.href = bookingUrl;
+        } else {
+            alert('Show ID is missing.');
+        }
+    });
+</script>
+</body>
+</html>

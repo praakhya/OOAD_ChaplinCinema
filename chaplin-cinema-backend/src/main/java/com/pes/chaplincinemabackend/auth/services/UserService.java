@@ -68,6 +68,16 @@ public class UserService {
         user.getGrantedAuthorities().remove(Role.ADMIN);
         userRepository.save(user);
     }
+    public void makeTheaterAdmin(UUID id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(id.toString()));
+        user.getGrantedAuthorities().add(Role.THEATRE_ADMIN);
+        userRepository.save(user);
+    }
+    public void removeTheaterAdmin(UUID id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException(id.toString()));
+        user.getGrantedAuthorities().remove(Role.THEATRE_ADMIN);
+        userRepository.save(user);
+    }
     public List<User> searchUserBySubstr(String phrase) {
         return userRepository.searchUserBySubstring(phrase);
     }

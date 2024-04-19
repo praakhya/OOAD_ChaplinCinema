@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface MovieRepository extends MongoRepository<Movie, String> {
@@ -16,5 +17,9 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
     List<Movie> findByName(String name);
     @Query("{title:{$regex:/.*?0.*/, $options: 'i'}}")
     Page<Movie> searchByMoviePhrase(String phrase, PageRequest pageRequest);
+
+    Optional<Movie> findByTitle(String title);
+
+    List<Movie> findAll();
 
 }

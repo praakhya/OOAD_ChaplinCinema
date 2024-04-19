@@ -31,6 +31,8 @@
                     <p sec:authorize="hasAuthority('ADMIN')">
                         <a th:if="${not user.isAdmin()}" class="btn btn-primary" th:href="@{/users/makeadmin/{id}(id=${user.id})}">Make Admin</a>
                         <a th:if="${user.isAdmin()}" class="btn btn-primary" th:href="@{/users/removeadmin/{id}(id=${user.id})}">Remove Admin</a>
+                        <a th:if="${not user.isTheaterAdmin()}" class="btn btn-primary" th:href="@{/users/maketheateradmin/{id}(id=${user.id})}">Make Theater Admin</a>
+                        <a th:if="${user.isTheaterAdmin()}" class="btn btn-primary" th:href="@{/users/removetheateradmin/{id}(id=${user.id})}">Remove Theater Admin</a>
                         <a th:if="${not user.isAdmin()}" class="btn btn-primary" th:href="@{/users/deleteuser/{id}(id=${user.id})}">Delete User</a>
                     </p>
                 </div>

@@ -65,4 +65,7 @@ public class User extends AbstractBase implements UserDetails {
     public boolean isAdmin() {
         return grantedAuthorities.contains(Role.ADMIN);
     }
+    public boolean isTheaterAdmin() {
+        return grantedAuthorities.contains(Role.THEATRE_ADMIN);
+    }
 }

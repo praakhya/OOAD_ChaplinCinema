@@ -40,6 +40,20 @@ public class UsersEndpoint {
         return "users";
     }
     @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @RequestMapping(value="/maketheateradmin/{id}")
+    public String makeTheaterAdmin(@PathVariable("id") UUID id, Model model) {
+        userService.makeTheaterAdmin(id);
+        model.addAttribute("users",userService.findAll());
+        return "users";
+    }
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @RequestMapping(value="/removetheateradmin/{id}")
+    public String removeTheaterAdmin(@PathVariable("id") UUID id, Model model) {
+        userService.removeTheaterAdmin(id);
+        model.addAttribute("users",userService.findAll());
+        return "users";
+    }
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @RequestMapping(value="/deleteuser/{id}")
     public String deleteUser(@PathVariable("id") UUID id, Model model) {
         userService.delete(id);

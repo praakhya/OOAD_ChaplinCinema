@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
@@ -20,18 +21,19 @@ public class IdentitySecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth.requestMatchers(
                                         "/css/**",
                                         "/js/**",
                                         "/images/**"
                                 ).permitAll() //.permitAll() means that these requests don't require authentication, they are permitted
-                                .requestMatchers("/", "/home", "/movies/**", "/customers/**", "/signup/**").permitAll()
+                                .requestMatchers("/", "/home", "/movies/**", "/customers/**", "/signup/**","/shows/**","/shows/bookMyShow","/shows/bookingSubmission","/shows/seatDetails","api/v1/payment/success","/theatres/**","/shows","api/v1/bookings").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .failureUrl("/login-error.html")
-                        .successForwardUrl("/movies")
+                        .defaultSuccessUrl("/index")
                         .permitAll()
                 )
                 .logout((logout) -> logout.logoutSuccessUrl("/").permitAll());

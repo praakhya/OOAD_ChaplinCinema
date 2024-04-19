@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security6">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theatre Details</title>
+    <!-- Bootstrap CSS CDN link -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles */
+        .card {
+            margin-bottom: 20px;
+        }
+        .show-actions a {
+            margin-right: 10px;
+            margin-bottom: 10px;
+            width: 80px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        /* Align buttons in the same line */
+        .show-actions {
+            display: flex;
+            align-items: center;
+        }
+        .show-actions a {
+            margin-right: 10px;
+        }
+        html, body {
+            height: 100%;
+            margin-top: 20px; /* Add a margin at the top */
+        }
+        .container-fluid {
+            height: 100%;
+            padding-left: 30px; /* Left padding */
+            padding-right: 30px; /* Right padding */
+        }
+        /* Constrain image size */
+        .card-img-top {
+            width: 100%;
+            height: 200px; /* Adjust height as needed */
+            object-fit: cover; /* Ensure images cover the entire space */
+        }
+        /* Table styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        th {
+            background-color: #343a40;
+            color: #fff;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        /* Gradient blue background for Shows section */
+        .shows-section {
+            background: linear-gradient(to right, #0575e6, #021b79); /* Gradient from blue to dark blue */
+            color: #fff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="navbar bg-body-tertiary">
+    <h5>Chaplin Cinema</h5>
+    <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+        <input type="submit" value="Log Out" class="btn btn-primary"/>
+    </form>
+    <div>
+        <a th:href="@{/theatres}" class="btn btn-outline-danger">Back</a>
+        <a class="btn btn-primary" sec:authorize="!isAuthenticated()" th:href="@{/login}">Login</a>
+
+        <a th:href="@{/shows/addshows/{id}(id=${theatre._id})}" class="btn btn-primary">Add Show</a>
+        <a class="btn btn-primary" th:href="@{/index}">Home</a>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Theatre card -->
+        <div class="col-md-4">
+            <div class="card shadow">
+                <img th:src="${theatre.imageUrl}" class="card-img-top" alt="Theatre Image" width="200" height="200">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${theatre.name}"></h5>
+                    <p class="card-text" th:text="${theatre.address}"></p>
+                </div>
+            </div>
+        </div>
+        <!-- Shows table -->
+        <div class="col-md-8">
+            <div class="shows-section">
+                <h3>Shows</h3>
+            </div>
+            <div class="table-container">
+                <table class="table shadow">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Timings</th>
+                        <th>Category</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Check if there are shows -->
+                    <th:block th:if="${#lists.isEmpty(theatre.showsDetails)}">
+                        <tr>
+                            <td colspan="5">No shows available</td>
+                        </tr>
+                    </th:block>
+                    <!-- Loop through shows -->
+                    <tr th:each="show : ${theatre.showsDetails}">
+                        <td th:text="${show.title}"></td>
+                        <td th:text="${show.date}"></td>
+                        <td>
+                            <span th:switch="${#strings.toString(show.timings)}">
+                                <span th:case="'TIMING_1'">10:00 am - 1:00 pm</span>
+                                <span th:case="'TIMING_2'">1:30 pm - 4:00 pm</span>
+                                <span th:case="'TIMING_3'">4:30 pm - 8:00 pm</span>
+                                <span th:case="'TIMING_4'">8:30 pm - 12:00 am</span>
+                                <!-- Add more cases if needed -->
+                                <span th:case="*">[[${show.timings}]]</span>
+                            </span>
+                        </td>
+                        <td th:text="${show.category}"></td>
+                        <td class="show-actions">
+                            <!-- Buttons -->
+                            <a class="btn btn-primary" th:href="@{'/shows/view/' + ${show._id}}">View</a>
+                            <a class="btn btn-outline-warning" th:href="@{'/shows/edit/' + ${show._id}}">Edit</a>
+                            <a th:href="@{'/shows/delete/' + ${show._id}}" class="btn btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
